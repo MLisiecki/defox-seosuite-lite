@@ -1,8 +1,8 @@
 {
-    "name": "defox/module-seosuite",
+    "name": "defox/seosuite-lite",
     "description": "A comprehensive SEO Lite solution for Magento 2.4.7",
     "type": "magento2-module",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "license": "MIT",
     "authors": [
         {

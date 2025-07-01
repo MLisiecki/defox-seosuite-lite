@@ -104,7 +104,7 @@ class AddCanonicalDisabledColumns implements SchemaPatchInterface
     public static function getDependencies()
     {
         return [
-            CreateRedirectTable::class
+            CreateSeoTables::class
         ];
     }
 
