@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Defox Team
+ * @copyright Copyright (c) 2025 Defox (https://defox.pl)
+ * @package Defox_SEOSuite
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="defox_seosuite_sitemap_error" label="Sitemap Generation Error" file="sitemap_error.html" type="html" module="Defox_SEOSuite" area="adminhtml"/>
+</config>

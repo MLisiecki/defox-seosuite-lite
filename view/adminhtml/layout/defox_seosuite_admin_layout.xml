@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @package     Defox_SEOSuite
+ * @copyright   Copyright (c) 2025 Defox (https://defox.pl)
+ * @license     Defox Proprietary License
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <meta name="charset" content="UTF-8"/>
+    </head>
+</page>

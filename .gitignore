@@ -1,0 +1,7 @@
+*.removed
+.idea/
+.DS_Store
+*.log
+*.backup
+*.back
+*.old

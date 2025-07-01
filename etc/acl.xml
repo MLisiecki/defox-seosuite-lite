@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @package     Defox_SEOSuite
+ * @copyright   Copyright (c) 2024 Defox (https://defox.com)
+ * @license     Defox Proprietary License
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magento_Backend::marketing">
+                    <resource id="Defox_SEOSuite::seosuite" title="SEO Suite Lite" translate="title" sortOrder="50">
+                        <resource id="Defox_SEOSuite::template" title="Meta Tag Templates" translate="title" sortOrder="20" />
+
+
+                        <resource id="Defox_SEOSuite::structured_data_preview" title="Structured Data Preview" translate="title" sortOrder="55" />
+                        <resource id="Defox_SEOSuite::settings" title="Settings" translate="title" sortOrder="60" />
+                    </resource>
+                    <resource id="Defox_SEOSuite::sitemap" title="Sitemap Management" translate="title" sortOrder="55">
+                        <resource id="Defox_SEOSuite::sitemap_generate" title="Generowanie" translate="title" sortOrder="10" />
+                        <resource id="Defox_SEOSuite::sitemap_validate" title="Walidacja" translate="title" sortOrder="20" />
+                        <resource id="Defox_SEOSuite::sitemap_dashboard" title="Analityka" translate="title" sortOrder="30" />
+                    </resource>
+                </resource>
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Defox_SEOSuite::config" title="SEO Suite Lite Section" translate="title" />
+                        </resource>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

@@ -1,0 +1,157 @@
+<?php
+/**
+ * @package     Defox_SEOSuite
+ * @author      Marcin Lisiecki 
+ * @copyright   Copyright (c) 2025 deFox
+ * @license     MIT
+ */
+
+$ajaxUrls = $block->getAjaxUrls();
+$validationTypes = $block->getValidationTypes();
+$validationOptions = $block->getValidationOptions();
+$advancedSettings = $block->getAdvancedSettings();
+$uploadConfig = $block->getUploadConfig();
+$stores = $block->getAvailableStores();
+$validationRules = $block->getValidationRules();
+$tips = $block->getValidationTips();
+$scoreThresholds = $block->getScoreThresholds();
+?>
+
+<div class="admin__page-nav-title">
+    <h1 class="page-title"><?= $block->escapeHtml(__('Validate Sitemap')) ?></h1>
+    <p class="page-subtitle"><?= $block->escapeHtml(__('Comprehensive sitemap validation with detailed analysis and recommendations')) ?></p>
+</div>
+
+<!-- Navigation Tabs -->
+<div class="validation-tabs">
+    <div class="admin__data-grid-wrap">
+        <div class="admin__data-grid-header">
+            <div class="admin__data-grid-header-row">
+                <div class="validation-tab-container">
+                    <button type="button" class="validation-tab active" data-tab="file-upload">
+                    <i class="icon-upload"></i>
+                    <span><?= $block->escapeHtml(__('Upload File')) ?></span>
+                    </button>
+                    <button type="button" class="validation-tab" data-tab="url-validation">
+                        <i class="icon-link"></i>
+                        <span><?= $block->escapeHtml(__('Validate URL')) ?></span>
+                    </button>
+                    <button type="button" class="validation-tab" data-tab="current-sitemap">
+                        <i class="icon-sitemap"></i>
+                        <span><?= $block->escapeHtml(__('Current Sitemap')) ?></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Validation Options Panel -->
+<div class="validation-options-panel">
+    <div class="admin__data-grid-wrap">
+        <div class="admin__data-grid-header">
+            <div class="admin__data-grid-header-row">
+                <div class="admin__data-grid-header-column">
+                    <h2><?= $block->escapeHtml(__('Validation Options')) ?></h2>
+                    <button type="button" class="action-secondary action-small" id="toggle-advanced-options">
+                    <span><?= $block->escapeHtml(__('Advanced Options')) ?></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin__data-grid-body">
+            <div class="validation-options-grid">
+                <!-- Basic Options -->
+                <div class="options-section">
+                    <h3><?= $block->escapeHtml(__('Basic Validation')) ?></h3>
+                    <?php foreach ($validationOptions['basic'] as $key => $option): ?>
+                        <div class="option-item">
+                            <label class="option-label">
+                                <input type="checkbox"
+                                       name="<?= $block->escapeHtmlAttr($key) ?>"
+                                       value="1"
+                                    <?= $option['default'] ? 'checked' : '' ?>
+                                    <?= $option['required'] ? 'disabled' : '' ?>
+                                       class="validation-option" />
+                                <span class="option-title"><?= $block->escapeHtml($option['label']) ?></span>
+                                <?php if ($option['required']): ?>
+                                    <span class="required-indicator">*</span>
+                                <?php endif; ?>
+                            </label>
+                            <p class="option-description"><?= $block->escapeHtml($option['description']) ?></p>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+
+                <!-- Advanced Options (Initially Hidden) -->
+                <div class="options-section advanced-options" style="display: none;">
+                <h3><?= $block->escapeHtml(__('Advanced Validation')) ?></h3>
+                <?php foreach ($validationOptions['advanced'] as $key => $option): ?>
+                    <div class="option-item">
+                        <label class="option-label">
+                            <input type="checkbox"
+                                   name="<?= $block->escapeHtmlAttr($key) ?>"
+                                   value="1"
+                                <?= $option['default'] ? 'checked' : '' ?>
+                                   class="validation-option advanced-option" />
+                            <span class="option-title"><?= $block->escapeHtml($option['label']) ?></span>
+                        </label>
+                        <p class="option-description"><?= $block->escapeHtml($option['description']) ?></p>
+                    </div>
+                <?php endforeach; ?>
+
+                <!-- Advanced Settings -->
+                <div class="advanced-settings">
+                    <h4><?= $block->escapeHtml(__('Advanced Settings')) ?></h4>
+                    <?php foreach ($advancedSettings as $key => $setting): ?>
+                        <div class="setting-item">
+                            <label for="<?= $block->escapeHtmlAttr($key) ?>"><?= $block->escapeHtml($setting['label']) ?></label>
+                            <input type="<?= $block->escapeHtmlAttr($setting['type']) ?>"
+                                   id="<?= $block->escapeHtmlAttr($key) ?>"
+                                   name="<?= $block->escapeHtmlAttr($key) ?>"
+                                   value="<?= $block->escapeHtmlAttr($setting['default']) ?>"
+                                   min="<?= $block->escapeHtmlAttr($setting['min'] ?? '') ?>"
+                                   max="<?= $block->escapeHtmlAttr($setting['max'] ?? '') ?>"
+                                <?= isset($setting['readonly']) && $setting['readonly'] ? 'readonly' : '' ?>
+                                   class="admin__control-text setting-input" />
+                            <p class="setting-description"><?= $block->escapeHtml($setting['description']) ?></p>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Validation Results -->
+<div class="validation-results" id="validation-results" style="display: none;">
+    <div class="admin__data-grid-wrap">
+        <div class="admin__data-grid-header">
+            <div class="admin__data-grid-header-row">
+                <div class="admin__data-grid-header-column">
+                    <h2><?= $block->escapeHtml(__('Validation Results')) ?></h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin__data-grid-body">
+            <!-- Results will be populated via JavaScript -->
+            <div id="results-content"></div>
+        </div>
+    </div>
+</div>
+
+<script type="text/x-magento-init">
+{
+    "*": {
+        "Defox_SEOSuite/js/sitemap-validator": {
+            "ajaxUrls": <?= /* @noEscape */ json_encode($ajaxUrls) ?>,
+            "uploadConfig": <?= /* @noEscape */ json_encode($uploadConfig) ?>,
+            "scoreThresholds": <?= /* @noEscape */ json_encode($scoreThresholds) ?>,
+            "validationOptions": <?= /* @noEscape */ json_encode($validationOptions) ?>,
+            "advancedSettings": <?= /* @noEscape */ json_encode($advancedSettings) ?>
+        }
+    }
+}
+</script>

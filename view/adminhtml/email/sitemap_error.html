@@ -1,0 +1,40 @@
+<!--
+/**
+ * @author Defox Team
+ * @copyright Copyright (c) 2025 Defox (https://defox.pl)
+ * @package Defox_SEOSuite
+ */
+-->
+<!--@subject {{trans "Sitemap Generation Error - %store_name" store_name=$store_name}} @-->
+<!--@vars {
+"var store_name":"Store Name",
+"var store_id":"Store ID",
+"var error_message":"Error Message",
+"var error_trace":"Error Stack Trace",
+"var generation_stats":"Generation Statistics",
+"var datetime":"Date and Time"
+} @-->
+
+{{template config_path="design/email/header_template"}}
+
+<p>{{trans "Hello,"}}</p>
+
+<p>{{trans "An error occurred during sitemap generation for store %store_name (ID: %store_id)." store_name=$store_name store_id=$store_id}}</p>
+
+<h3>{{trans "Error Details:"}}</h3>
+<p><strong>{{trans "Date/Time:"}}}</strong> {{var datetime}}</p>
+<p><strong>{{trans "Error Message:"}}}</strong></p>
+<pre style="background: #f5f5f5; padding: 10px; overflow: auto;">{{var error_message}}</pre>
+
+<h3>{{trans "Generation Statistics:"}}</h3>
+<pre style="background: #f5f5f5; padding: 10px; overflow: auto;">{{var generation_stats}}</pre>
+
+<h3>{{trans "Stack Trace:"}}</h3>
+<details>
+<summary>{{trans "Click to expand"}}</summary>
+<pre style="background: #f5f5f5; padding: 10px; overflow: auto; font-size: 11px;">{{var error_trace}}</pre>
+</details>
+
+<p>{{trans "Please check the sitemap generation settings and logs for more information."}}</p>
+
+{{template config_path="design/email/footer_template"}}

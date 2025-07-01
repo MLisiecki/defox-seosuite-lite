@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @package     Defox_SEOSuite
+ * @copyright   Copyright (c) 2024 Defox (https://defox.com)
+ * @license     Defox Proprietary License
+ */
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">defox_seosuite_template_form.defox_seosuite_template_form_data_source</item>
+            <item name="deps" xsi:type="string">defox_seosuite_template_form.defox_seosuite_template_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Meta Tag Template Information</item>
+        <item name="config" xsi:type="array">
+            <item name="dataScope" xsi:type="string">data</item>
+            <item name="namespace" xsi:type="string">defox_seosuite_template_form</item>
+        </item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+        <item name="buttons" xsi:type="array">
+            <item name="back" xsi:type="string">Defox\SEOSuite\Block\Adminhtml\Template\Edit\BackButton</item>
+            <item name="delete" xsi:type="string">Defox\SEOSuite\Block\Adminhtml\Template\Edit\DeleteButton</item>
+            <item name="save" xsi:type="string">Defox\SEOSuite\Block\Adminhtml\Template\Edit\SaveButton</item>
+            <item name="save_and_continue" xsi:type="string">Defox\SEOSuite\Block\Adminhtml\Template\Edit\SaveAndContinueButton</item>
+        </item>
+    </argument>
+    <dataSource name="defox_seosuite_template_form_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Defox\SEOSuite\Model\Template\DataProvider</argument>
+            <argument name="name" xsi:type="string">defox_seosuite_template_form_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">template_id</argument>
+            <argument name="requestFieldName" xsi:type="string">template_id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="submit_url" xsi:type="url" path="defox_seosuite/template/save"/>
+                </item>
+            </argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+    </dataSource>
+    <fieldset name="general_information">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="collapsible" xsi:type="boolean">false</item>
+                <item name="label" xsi:type="string" translate="true">General Information</item>
+                <item name="sortOrder" xsi:type="number">10</item>
+            </item>
+        </argument>
+        <field name="template_id">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">template</item>
+                    <item name="dataScope" xsi:type="string">template_id</item>
+                </item>
+            </argument>
+        </field>
+        <field name="name">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Template Name</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">template</item>
+                    <item name="dataScope" xsi:type="string">name</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="type">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Defox\SEOSuite\Model\Config\Source\TemplateType</item>
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">select</item>
+                    <item name="label" xsi:type="string" translate="true">Template Type</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="source" xsi:type="string">template</item>
+                    <item name="dataScope" xsi:type="string">type</item>
+                    <item name="component" xsi:type="string">Defox_SEOSuite/js/form/element/template-type</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                    <item name="notice" xsi:type="string" translate="true">"Comprehensive" allows you to configure all meta tags in one template (recommended). Individual types create separate templates for each meta tag type.</item>
+                </item>
+            </argument>
+        </field>
+        <field name="entity_type">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Defox\SEOSuite\Model\Config\Source\EntityType</item>
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">select</item>
+                    <item name="label" xsi:type="string" translate="true">Entity Type</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="source" xsi:type="string">template</item>
+                    <item name="dataScope" xsi:type="string">entity_type</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="store_id">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Defox\SEOSuite\Model\Config\Source\StoreViews</item>
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">int</item>
+                    <item name="label" xsi:type="string" translate="true">Store View</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="source" xsi:type="string">template</item>
+                    <item name="dataScope" xsi:type="string">store_id</item>
+                    <item name="default" xsi:type="string">0</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="priority">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Priority</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">template</item>
+                    <item name="dataScope" xsi:type="string">priority</item>
+                    <item name="default" xsi:type="string">0</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="validate-number" xsi:type="boolean">true</item>
+                    </item>
+                    <item name="notice" xsi:type="string" translate="true">Higher value means higher priority</item>
+                </item>
+            </argument>
+        </field>
+        <field name="is_active">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">boolean</item>
+                    <item name="label" xsi:type="string" translate="true">Status</item>
+                    <item name="formElement" xsi:type="string">checkbox</item>
+                    <item name="prefer" xsi:type="string">toggle</item>
+                    <item name="source" xsi:type="string">template</item>
+                    <item name="dataScope" xsi:type="string">is_active</item>
+                    <item name="valueMap" xsi:type="array">
+                        <item name="true" xsi:type="number">1</item>
+                        <item name="false" xsi:type="number">0</item>
+                    </item>
+                    <item name="default" xsi:type="number">1</item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+    <fieldset name="meta_title_fieldset" component="Magento_Ui/js/form/components/fieldset">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">Meta Title Template</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="opened" xsi:type="boolean">true</item>
+                <item name="dataScope" xsi:type="string"></item>
+                <item name="sortOrder" xsi:type="number">20</item>
+                <item name="initializeFieldsetDataByDefault" xsi:type="boolean">true</item>
+                <item name="additionalClasses" xsi:type="string">template-fieldset template-fieldset-meta-title</item>
+                <item name="visible" xsi:type="boolean">false</item>
+            </item>
+        </argument>
+        <field name="meta_title_template">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Template</item>
+                    <item name="formElement" xsi:type="string">textarea</item>
+                    <item name="source" xsi:type="string">template</item>
+                    <item name="dataScope" xsi:type="string">meta_title_template</item>
+                    <item name="notice" xsi:type="string" translate="true">Use variables like {{product.name}}, {{category.name}}, {{store.name}}. Max recommended length: 60 characters. Note: If Template Type is "Comprehensive", you can fill all meta tag fields in one template.</item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+    <fieldset name="meta_description_fieldset" component="Magento_Ui/js/form/components/fieldset">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">Meta Description Template</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="opened" xsi:type="boolean">true</item>
+                <item name="dataScope" xsi:type="string"></item>
+                <item name="sortOrder" xsi:type="number">30</item>
+                <item name="initializeFieldsetDataByDefault" xsi:type="boolean">true</item>
+                <item name="additionalClasses" xsi:type="string">template-fieldset template-fieldset-meta-description</item>
+                <item name="visible" xsi:type="boolean">false</item>
+            </item>
+        </argument>
+        <field name="meta_description_template">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Template</item>
+                    <item name="formElement" xsi:type="string">textarea</item>
+                    <item name="source" xsi:type="string">template</item>
+                    <item name="dataScope" xsi:type="string">meta_description_template</item>
+                    <item name="notice" xsi:type="string" translate="true">Use variables like {{product.name}}, {{product.description}}, {{category.name}}. Max recommended length: 160 characters.</item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+    <fieldset name="meta_keywords_fieldset" component="Magento_Ui/js/form/components/fieldset">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">Meta Keywords Template</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="opened" xsi:type="boolean">true</item>
+                <item name="dataScope" xsi:type="string"></item>
+                <item name="sortOrder" xsi:type="number">40</item>
+                <item name="initializeFieldsetDataByDefault" xsi:type="boolean">true</item>
+                <item name="additionalClasses" xsi:type="string">template-fieldset template-fieldset-meta-keywords</item>
+                <item name="visible" xsi:type="boolean">false</item>
+            </item>
+        </argument>
+        <field name="meta_keywords_template">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Template</item>
+                    <item name="formElement" xsi:type="string">textarea</item>
+                    <item name="source" xsi:type="string">template</item>
+                    <item name="dataScope" xsi:type="string">meta_keywords_template</item>
+                    <item name="notice" xsi:type="string" translate="true">Use variables like {{product.name}}, {{category.name}}. Separate keywords with commas.</item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+    <fieldset name="meta_robots_fieldset" component="Magento_Ui/js/form/components/fieldset">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">Meta Robots Template</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="opened" xsi:type="boolean">true</item>
+                <item name="dataScope" xsi:type="string"></item>
+                <item name="sortOrder" xsi:type="number">50</item>
+                <item name="initializeFieldsetDataByDefault" xsi:type="boolean">true</item>
+                <item name="additionalClasses" xsi:type="string">template-fieldset template-fieldset-meta-robots</item>
+                <item name="visible" xsi:type="boolean">false</item>
+            </item>
+        </argument>
+        <field name="meta_robots_template">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Defox\SEOSuite\Model\Config\Source\MetaRobots</item>
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">select</item>
+                    <item name="label" xsi:type="string" translate="true">Template</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="source" xsi:type="string">template</item>
+                    <item name="dataScope" xsi:type="string">meta_robots_template</item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+    <fieldset name="open_graph_fieldset" component="Magento_Ui/js/form/components/fieldset">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">Open Graph Templates</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="opened" xsi:type="boolean">true</item>
+                <item name="dataScope" xsi:type="string"></item>
+                <item name="sortOrder" xsi:type="number">60</item>
+                <item name="initializeFieldsetDataByDefault" xsi:type="boolean">true</item>
+                <item name="additionalClasses" xsi:type="string">template-fieldset template-fieldset-open-graph</item>
+                <item name="visible" xsi:type="boolean">false</item>
+            </item>
+        </argument>
+        <field name="og_title_template">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">OG Title Template</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">template</item>
+                    <item name="dataScope" xsi:type="string">og_title_template</item>
+                    <item name="notice" xsi:type="string" translate="true">Use variables like {{product.name}}, {{category.name}}, {{store.name}}</item>
+                </item>
+            </argument>
+        </field>
+        <field name="og_description_template">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">OG Description Template</item>
+                    <item name="formElement" xsi:type="string">textarea</item>
+                    <item name="source" xsi:type="string">template</item>
+                    <item name="dataScope" xsi:type="string">og_description_template</item>
+                    <item name="notice" xsi:type="string" translate="true">Use variables like {{product.description}}, {{category.description}}</item>
+                </item>
+            </argument>
+        </field>
+        <field name="og_type_template">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Defox\SEOSuite\Model\Config\Source\OpenGraphType</item>
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">select</item>
+                    <item name="label" xsi:type="string" translate="true">OG Type Template</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="source" xsi:type="string">template</item>
+                    <item name="dataScope" xsi:type="string">og_type_template</item>
+                </item>
+            </argument>
+        </field>
+        <field name="og_image_template">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">OG Image Template</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">template</item>
+                    <item name="dataScope" xsi:type="string">og_image_template</item>
+                    <item name="notice" xsi:type="string" translate="true">Use variables like {{product.image}}, {{category.image}} or specify a full URL</item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+    <fieldset name="conditions_fieldset" component="Magento_Ui/js/form/components/fieldset">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">Conditions (Advanced)</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="opened" xsi:type="boolean">false</item>
+                <item name="dataScope" xsi:type="string"></item>
+                <item name="sortOrder" xsi:type="number">70</item>
+                <item name="initializeFieldsetDataByDefault" xsi:type="boolean">true</item>
+            </item>
+        </argument>
+        <field name="conditions_serialized">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Conditions</item>
+                    <item name="formElement" xsi:type="string">textarea</item>
+                    <item name="source" xsi:type="string">template</item>
+                    <item name="dataScope" xsi:type="string">conditions_serialized</item>
+                    <item name="additionalClasses" xsi:type="string">admin__field-wide</item>
+                    <item name="notice" xsi:type="string" translate="true">JSON format for advanced filtering. Examples:
+{"attribute_set_id": [1,2,3]} - Apply only to products with specific attribute sets
+{"category_ids": [4,5,6]} - Apply only to products in specific categories  
+{"visibility": [2,3,4]} - Apply only to products with specific visibility
+{"type_id": ["simple","configurable"]} - Apply only to specific product types
+{"price_range": {"min": 10, "max": 100}} - Apply only to products in price range
+Leave empty to apply to all entities of the selected type.</item>
+                </item>
+            </argument>
+        </field>
+        <container name="conditions_examples">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/form/components/html</item>
+                    <item name="additionalClasses" xsi:type="string">admin__field-note</item>
+                    <item name="content" xsi:type="string" translate="true"><![CDATA[
+                        <div style="background: #f9f9f9; border: 1px solid #ddd; padding: 15px; border-radius: 4px; margin-top: 10px;">
+                            <h4 style="margin-top: 0; color: #333;">Available Condition Types:</h4>
+                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                <li><strong>Product conditions:</strong> attribute_set_id, category_ids, visibility, type_id, price_range, stock_status</li>
+                                <li><strong>Category conditions:</strong> level, is_anchor, include_in_menu, parent_id</li>
+                                <li><strong>CMS Page conditions:</strong> identifier, is_active, layout</li>
+                            </ul>
+                            <h4 style="color: #333;">Example Conditions:</h4>
+                            <div style="font-family: monospace; background: #fff; padding: 10px; border: 1px solid #ccc; margin: 5px 0;">
+                                {"attribute_set_id": [9, 10], "visibility": [2, 3, 4]}
+                            </div>
+                            <div style="font-family: monospace; background: #fff; padding: 10px; border: 1px solid #ccc; margin: 5px 0;">
+                                {"price_range": {"min": 50, "max": 500}, "type_id": ["simple"]}
+                            </div>
+                            <div style="font-family: monospace; background: #fff; padding: 10px; border: 1px solid #ccc; margin: 5px 0;">
+                                {"category_ids": [3, 4, 5]}
+                            </div>
+                        </div>
+                    ]]></item>
+                </item>
+            </argument>
+        </container>
+    </fieldset>
+    <fieldset name="variables_fieldset" component="Magento_Ui/js/form/components/fieldset">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">Available Variables</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="opened" xsi:type="boolean">false</item>
+                <item name="dataScope" xsi:type="string"></item>
+                <item name="sortOrder" xsi:type="number">80</item>
+                <item name="initializeFieldsetDataByDefault" xsi:type="boolean">true</item>
+            </item>
+        </argument>
+        <container name="available_variables">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/form/components/html</item>
+                    <item name="additionalClasses" xsi:type="string">admin__field-note</item>
+                    <item name="content" xsi:type="string" translate="true"><![CDATA[
+                        <div id="defox-variables-display" style="background: #f9f9f9; border: 1px solid #ddd; padding: 15px; border-radius: 4px; margin-top: 10px;">
+                            <h4 style="margin-top: 0; color: #333;">Available Variables by Entity Type:</h4>
+                            
+                            <div style="margin: 15px 0;">
+                                <h5 style="color: #333; margin-bottom: 10px;">Product Variables:</h5>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 10px;">
+                                    <div><code>{{product.name}}</code> - Product name</div>
+                                    <div><code>{{product.sku}}</code> - Product SKU</div>
+                                    <div><code>{{product.price}}</code> - Product price</div>
+                                    <div><code>{{product.description}}</code> - Product description</div>
+                                    <div><code>{{product.short_description}}</code> - Product short description</div>
+                                    <div><code>{{product.image}}</code> - Product image URL</div>
+                                    <div><code>{{product.url}}</code> - Product URL</div>
+                                    <div><code>{{category.name}}</code> - Product category name</div>
+                                </div>
+                            </div>
+                            
+                            <div style="margin: 15px 0;">
+                                <h5 style="color: #333; margin-bottom: 10px;">Category Variables:</h5>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 10px;">
+                                    <div><code>{{category.name}}</code> - Category name</div>
+                                    <div><code>{{category.description}}</code> - Category description</div>
+                                    <div><code>{{category.image}}</code> - Category image URL</div>
+                                    <div><code>{{category.url}}</code> - Category URL</div>
+                                    <div><code>{{category.product_count}}</code> - Number of products</div>
+                                    <div><code>{{parent_category.name}}</code> - Parent category name</div>
+                                </div>
+                            </div>
+                            
+                            <div style="margin: 15px 0;">
+                                <h5 style="color: #333; margin-bottom: 10px;">CMS Page Variables:</h5>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 10px;">
+                                    <div><code>{{cms_page.title}}</code> - CMS page title</div>
+                                    <div><code>{{cms_page.content}}</code> - CMS page content</div>
+                                    <div><code>{{cms_page.identifier}}</code> - CMS page identifier</div>
+                                    <div><code>{{cms_page.url}}</code> - CMS page URL</div>
+                                </div>
+                            </div>
+                            
+                            <div style="margin: 15px 0;">
+                                <h5 style="color: #333; margin-bottom: 10px;">Store Variables:</h5>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 10px;">
+                                    <div><code>{{store.name}}</code> - Store name</div>
+                                    <div><code>{{store.url}}</code> - Store URL</div>
+                                    <div><code>{{website.name}}</code> - Website name</div>
+                                    <div><code>{{website.url}}</code> - Website URL</div>
+                                </div>
+                            </div>
+                            
+                            <div style="background: #e8f4f8; padding: 10px; border-radius: 4px; margin-top: 15px;">
+                                <strong>Tip:</strong> Click on any variable to copy it to your clipboard, then paste it into the template fields above.
+                            </div>
+                        </div>
+                        
+                        <script type="text/javascript">
+                        require(['jquery'], function($) {
+                            $('#defox-variables-display code').on('click', function() {
+                                var text = $(this).text();
+                                
+                                // Create temporary textarea to copy text
+                                var $temp = $("<textarea>");
+                                $("body").append($temp);
+                                $temp.val(text).select();
+                                document.execCommand("copy");
+                                $temp.remove();
+                                
+                                // Show notification
+                                var notification = $('<div class="message message-success" style="position: fixed; top: 50px; right: 20px; z-index: 9999; padding: 10px; background: #4CAF50; color: white; border-radius: 4px;">Variable copied: ' + text + '</div>');
+                                $('body').append(notification);
+                                
+                                setTimeout(function() {
+                                    notification.fadeOut(function() {
+                                        $(this).remove();
+                                    });
+                                }, 3000);
+                            });
+                        });
+                        </script>
+                    ]]></item>
+                </item>
+            </argument>
+        </container>
+    </fieldset>
+</form>

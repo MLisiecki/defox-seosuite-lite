@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @package     Defox_SEOSuite
+ * @copyright   Copyright (c) 2024 Defox (https://defox.com)
+ * @license     Defox Proprietary License
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="admin">
+        <route id="defox_seosuite" frontName="defox_seosuite">
+            <module name="Defox_SEOSuite" />
+        </route>
+    </router>
+</config>

@@ -1,0 +1,231 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @package     Defox_SEOSuite
+ * @copyright   Copyright (c) 2024 Defox (https://defox.com)
+ * @license     Defox Proprietary License
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Preferences -->
+    <preference for="Defox\SEOSuite\Api\TemplateRepositoryInterface" type="Defox\SEOSuite\Model\TemplateRepository" />
+    <preference for="Defox\SEOSuite\Api\Data\TemplateInterface" type="Defox\SEOSuite\Model\Template" />
+
+    <!-- Virtual Types -->
+
+    <!-- UI Component Data Providers -->
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="defox_seosuite_template_listing_data_source" xsi:type="string">Defox\SEOSuite\Model\ResourceModel\Template\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <virtualType name="Defox\SEOSuite\Model\ResourceModel\Template\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">defox_seosuite_template</argument>
+            <argument name="resourceModel" xsi:type="string">Defox\SEOSuite\Model\ResourceModel\Template</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Loggers -->
+    <type name="Defox\SEOSuite\Logger\Handler">
+        <arguments>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+    <type name="Defox\SEOSuite\Logger\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">defox_seosuite</argument>
+            <argument name="handlers" xsi:type="array">
+                <item name="system" xsi:type="object">Defox\SEOSuite\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- Enhanced Variable Processor Factory -->
+    <type name="Defox\SEOSuite\Template\VariableProcessorFactory">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="product" xsi:type="string">Defox\SEOSuite\Template\Processor\ProductProcessor</item>
+                <item name="category" xsi:type="string">Defox\SEOSuite\Template\Processor\CategoryProcessor</item>
+                <item name="cms_page" xsi:type="string">Defox\SEOSuite\Template\Processor\CmsPageProcessor</item>
+            </argument>
+        </arguments>
+    </type>
+    
+    <!-- Enhanced ProductProcessor Dependencies -->
+    <type name="Defox\SEOSuite\Template\Processor\ProductProcessor">
+        <arguments>
+            <argument name="seoHelper" xsi:type="object">Defox\SEOSuite\Helper\Data</argument>
+            <argument name="storeManager" xsi:type="object">Magento\Store\Model\StoreManagerInterface</argument>
+            <argument name="escaper" xsi:type="object">Magento\Framework\Escaper</argument>
+            <argument name="cache" xsi:type="object">Magento\Framework\App\CacheInterface</argument>
+            <argument name="registry" xsi:type="object">Magento\Framework\Registry</argument>
+            <argument name="categoryRepository" xsi:type="object">Magento\Catalog\Api\CategoryRepositoryInterface</argument>
+        </arguments>
+    </type>
+    
+    <!-- Enhanced CategoryProcessor Dependencies -->
+    <type name="Defox\SEOSuite\Template\Processor\CategoryProcessor">
+        <arguments>
+            <argument name="seoHelper" xsi:type="object">Defox\SEOSuite\Helper\Data</argument>
+            <argument name="storeManager" xsi:type="object">Magento\Store\Model\StoreManagerInterface</argument>
+            <argument name="escaper" xsi:type="object">Magento\Framework\Escaper</argument>
+            <argument name="cache" xsi:type="object">Magento\Framework\App\CacheInterface</argument>
+            <argument name="productCollectionFactory" xsi:type="object">Magento\Catalog\Model\ResourceModel\Product\CollectionFactory</argument>
+        </arguments>
+    </type>
+    
+    <!-- Enhanced CmsPageProcessor Dependencies -->
+    <type name="Defox\SEOSuite\Template\Processor\CmsPageProcessor">
+        <arguments>
+            <argument name="seoHelper" xsi:type="object">Defox\SEOSuite\Helper\Data</argument>
+            <argument name="storeManager" xsi:type="object">Magento\Store\Model\StoreManagerInterface</argument>
+            <argument name="escaper" xsi:type="object">Magento\Framework\Escaper</argument>
+            <argument name="cache" xsi:type="object">Magento\Framework\App\CacheInterface</argument>
+        </arguments>
+    </type>
+    
+    <!-- Structured Data Configuration -->
+    <preference for="Defox\SEOSuite\Model\StructuredData\Mapper\AttributeMapperInterface" type="Defox\SEOSuite\Model\StructuredData\Mapper\AttributeMapper" />
+    
+    <!-- Attribute Mapper Configuration -->
+    <type name="Defox\SEOSuite\Model\StructuredData\Mapper\AttributeMapper">
+        <arguments>
+            <argument name="eavConfig" xsi:type="object">Magento\Eav\Model\Config</argument>
+        </arguments>
+    </type>
+    
+    <!-- Cache Manager Factory -->
+    <type name="Defox\SEOSuite\Model\Cache\CacheManager">
+        <arguments>
+            <argument name="cache" xsi:type="object">Magento\Framework\App\Cache</argument>
+        </arguments>
+    </type>
+    
+    <!-- Structured Data Generator Factory -->
+    <type name="Defox\SEOSuite\Model\StructuredData\GeneratorFactory">
+        <arguments>
+            <argument name="generators" xsi:type="array">
+                <item name="Product" xsi:type="string">Defox\SEOSuite\Model\StructuredData\Generator\Product</item>
+                <item name="Category" xsi:type="string">Defox\SEOSuite\Model\StructuredData\Generator\Category</item>
+                <item name="Organization" xsi:type="string">Defox\SEOSuite\Model\StructuredData\Generator\Organization</item>
+                <item name="WebSite" xsi:type="string">Defox\SEOSuite\Model\StructuredData\Generator\WebSite</item>
+                <item name="WebPage" xsi:type="string">Defox\SEOSuite\Model\StructuredData\Generator\WebPage</item>
+                <item name="Article" xsi:type="string">Defox\SEOSuite\Model\StructuredData\Generator\Article</item>
+                <item name="Review" xsi:type="string">Defox\SEOSuite\Model\StructuredData\Generator\Review</item>
+            </argument>
+        </arguments>
+    </type>
+    
+    <!-- Structured Data Generator Pool -->
+    <type name="Defox\SEOSuite\Model\StructuredData\GeneratorPool">
+        <arguments>
+            <argument name="generators" xsi:type="array">
+                <item name="product" xsi:type="string">Defox\SEOSuite\Model\StructuredData\Generator\Product</item>
+                <item name="category" xsi:type="string">Defox\SEOSuite\Model\StructuredData\Generator\Category</item>
+                <item name="organization" xsi:type="string">Defox\SEOSuite\Model\StructuredData\Generator\Organization</item>
+                <item name="website" xsi:type="string">Defox\SEOSuite\Model\StructuredData\Generator\WebSite</item>
+                <item name="webpage" xsi:type="string">Defox\SEOSuite\Model\StructuredData\Generator\WebPage</item>
+                <item name="article" xsi:type="string">Defox\SEOSuite\Model\StructuredData\Generator\Article</item>
+                <item name="review" xsi:type="string">Defox\SEOSuite\Model\StructuredData\Generator\Review</item>
+            </argument>
+        </arguments>
+    </type>
+    
+
+    <!-- Sitemap Configuration -->
+    <preference for="Defox\SEOSuite\Model\Sitemap\SitemapGeneratorInterface" type="Defox\SEOSuite\Model\Sitemap\Generator\XmlGenerator" />
+    <preference for="Defox\SEOSuite\Model\Sitemap\SitemapProviderInterface" type="Defox\SEOSuite\Model\Sitemap\Provider\AbstractProvider" />
+    <preference for="Defox\SEOSuite\Model\Sitemap\SitemapItemInterface" type="Defox\SEOSuite\Model\Sitemap\SitemapItem" />
+    
+    <!-- Sitemap Provider Pool -->
+    <type name="Defox\SEOSuite\Model\Sitemap\SitemapProviderPool">
+        <arguments>
+            <argument name="providers" xsi:type="array">
+                <item name="product" xsi:type="object">Defox\SEOSuite\Model\Sitemap\Provider\ProductProvider</item>
+                <item name="category" xsi:type="object">Defox\SEOSuite\Model\Sitemap\Provider\CategoryProvider</item>
+                <item name="cms_page" xsi:type="object">Defox\SEOSuite\Model\Sitemap\Provider\CmsPageProvider</item>
+                <item name="additional_links" xsi:type="object">Defox\SEOSuite\Model\Sitemap\Provider\AdditionalLinksProvider</item>
+            </argument>
+        </arguments>
+    </type>
+    
+    <!-- XML Generator Dependencies -->
+    <type name="Defox\SEOSuite\Model\Sitemap\Generator\XmlGenerator">
+        <arguments>
+            <argument name="providerPool" xsi:type="object">Defox\SEOSuite\Model\Sitemap\SitemapProviderPool</argument>
+        </arguments>
+    </type>
+    
+    <!-- Structured Data Validator -->
+    <preference for="Defox\SEOSuite\Model\StructuredData\Validator\ValidatorInterface" type="Defox\SEOSuite\Model\StructuredData\Validator\SchemaValidator" />
+    
+    <!-- Cache Frontend Configuration -->
+    <type name="Magento\Framework\App\Cache\Type\FrontendPool">
+        <arguments>
+            <argument name="typeFrontendMap" xsi:type="array">
+                <item name="defox_seosuite_canonical" xsi:type="string">defox_seosuite_canonical_cache_frontend</item>
+                <item name="defox_seosuite_structured_data" xsi:type="string">defox_seosuite_structured_data_cache_frontend</item>
+                <item name="defox_seosuite_sitemap" xsi:type="string">defox_seosuite_sitemap_cache_frontend</item>
+            </argument>
+        </arguments>
+    </type>
+    
+    <virtualType name="defox_seosuite_canonical_cache_frontend" type="Magento\Framework\Cache\Frontend\Decorator\TagScope">
+        <arguments>
+            <argument name="frontend" xsi:type="object">Magento\Framework\App\Cache\Type\FrontendPool\CacheDecorator</argument>
+            <argument name="tag" xsi:type="string">DEFOX_SEOSUITE_CANONICAL</argument>
+        </arguments>
+    </virtualType>
+    
+    <virtualType name="defox_seosuite_structured_data_cache_frontend" type="Magento\Framework\Cache\Frontend\Decorator\TagScope">
+        <arguments>
+            <argument name="frontend" xsi:type="object">Magento\Framework\App\Cache\Type\FrontendPool\CacheDecorator</argument>
+            <argument name="tag" xsi:type="string">DEFOX_SEOSUITE_STRUCTURED_DATA</argument>
+        </arguments>
+    </virtualType>
+    
+    <virtualType name="defox_seosuite_sitemap_cache_frontend" type="Magento\Framework\Cache\Frontend\Decorator\TagScope">
+        <arguments>
+            <argument name="frontend" xsi:type="object">Magento\Framework\App\Cache\Type\FrontendPool\CacheDecorator</argument>
+            <argument name="tag" xsi:type="string">DEFOX_SEOSUITE_SITEMAP</argument>
+        </arguments>
+    </virtualType>
+    
+    <!-- Enhanced Meta Tag Manager Dependencies -->
+    <type name="Defox\SEOSuite\Model\MetaTag\Manager">
+        <arguments>
+            <argument name="templateRepository" xsi:type="object">Defox\SEOSuite\Model\TemplateRepository</argument>
+            <argument name="processorFactory" xsi:type="object">Defox\SEOSuite\Template\VariableProcessorFactory</argument>
+            <argument name="storeManager" xsi:type="object">Magento\Store\Model\StoreManagerInterface</argument>
+            <argument name="logger" xsi:type="object">Defox\SEOSuite\Logger\Logger</argument>
+            <argument name="cache" xsi:type="object">Magento\Framework\App\CacheInterface</argument>
+        </arguments>
+    </type>
+    
+    <!-- Enhanced Observer Dependencies -->
+    <type name="Defox\SEOSuite\Observer\ApplyMetaTagTemplates">
+        <arguments>
+            <argument name="metaTagManager" xsi:type="object">Defox\SEOSuite\Model\MetaTag\Manager</argument>
+            <argument name="registry" xsi:type="object">Magento\Framework\Registry</argument>
+            <argument name="request" xsi:type="object">Magento\Framework\App\RequestInterface</argument>
+            <argument name="pageRepository" xsi:type="object">Magento\Cms\Api\PageRepositoryInterface</argument>
+            <argument name="productRepository" xsi:type="object">Magento\Catalog\Api\ProductRepositoryInterface</argument>
+            <argument name="categoryRepository" xsi:type="object">Magento\Catalog\Api\CategoryRepositoryInterface</argument>
+            <argument name="logger" xsi:type="object">Defox\SEOSuite\Logger\Logger</argument>
+            <argument name="pageConfig" xsi:type="object">Magento\Framework\View\Page\Config</argument>
+        </arguments>
+    </type>
+    
+    <!-- Console Commands -->
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="defox_seosuite_generate_sitemap" xsi:type="object">Defox\SEOSuite\Console\Command\GenerateSitemapCommand</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

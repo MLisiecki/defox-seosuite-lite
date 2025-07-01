@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Frontend DI configuration
+ *
+ * @package     Defox_SEOSuite
+ * @copyright   Copyright (c) 2024 Defox (https://defox.com)
+ * @license     Defox Proprietary License
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Universal Structured Data plugin for Renderer -->
+    <type name="Magento\Framework\View\Page\Config\Renderer">
+        <plugin name="defox_seosuite_universal_structured_data" type="Defox\SEOSuite\Plugin\Framework\View\Page\Config\UniversalStructuredDataPlugin" sortOrder="10" />
+        <plugin name="defox_seosuite_noindex_handler" type="Defox\SEOSuite\Plugin\Head\NoindexHandler" sortOrder="200" />
+    </type>
+    
+    <!-- Filter URL rewrite plugins -->
+    <type name="Magento\Catalog\Model\Layer\Filter\AbstractFilter">
+        <plugin name="defox_seosuite_filter_url_rewrite" type="Defox\SEOSuite\Plugin\Catalog\Layer\FilterUrlRewrite" sortOrder="10" />
+    </type>
+    
+    <!-- Router for friendly URLs -->
+    <type name="Magento\Framework\App\Router\Base">
+        <plugin name="defox_seosuite_friendly_url_router" type="Defox\SEOSuite\Plugin\Framework\App\Router\FilterUrlRouter" sortOrder="10" />
+    </type>
+    
+    <!-- OptimizeSpeed conflict resolution -->
+    <type name="Blueskytechco\OptimizeSpeed\Observer\OptimizeSpeedHttp">
+        <plugin name="defox_seosuite_optimize_speed_fix" type="Defox\SEOSuite\Plugin\Blueskytechco\OptimizeSpeed\Observer\OptimizeSpeedPlugin" sortOrder="100" />
+    </type>
+</config>

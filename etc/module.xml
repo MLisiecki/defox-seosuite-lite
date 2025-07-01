@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @package     Defox_SEOSuite
+ * @copyright   Copyright (c) 2024 Defox (https://defox.com)
+ * @license     Defox Proprietary License
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="Defox_SEOSuite" setup_version="1.0.0">
+        <sequence>
+            <module name="Magento_Store"/>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_Cms"/>
+            <module name="Magento_UrlRewrite"/>
+            <module name="Magento_Sitemap"/>
+            <module name="Magento_LayeredNavigation"/>
+            <module name="Magento_Swatches"/>
+        </sequence>
+    </module>
+</config>

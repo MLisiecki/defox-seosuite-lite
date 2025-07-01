@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Debug routes configuration
+ *
+ * @package     Defox_SEOSuite
+ * @copyright   Copyright (c) 2024 Defox (https://defox.com)
+ * @license     Defox Proprietary License
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="standard">
+        <route id="defox_seosuite_debug" frontName="defox_seosuite_debug">
+            <module name="Defox_SEOSuite" />
+        </route>
+    </router>
+</config>

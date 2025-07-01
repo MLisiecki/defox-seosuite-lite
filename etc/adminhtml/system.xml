@@ -1,0 +1,917 @@
+<?xml version="1.0"?><!--
+    /**
+     * System configuration
+     *
+     * @package     Defox_SEOSuite
+     * @copyright   Copyright (c) 2024 Defox (https://defox.com)
+     * @license     Defox Proprietary License
+     */
+    -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="defox" translate="label" sortOrder="1000">
+            <label>Defox</label>
+        </tab>
+        <section id="defox_seosuite" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1"
+                 showInStore="1">
+            <label>SEO Suite Lite</label>
+            <tab>defox</tab>
+            <resource>Defox_SEOSuite::config</resource>
+
+            <!-- General Settings -->
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>General Settings</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Enable SEO Suite Lite</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enable or disable the entire SEO Suite Lite module.</comment>
+                </field>
+            </group>
+
+            <!-- Meta Tags Settings -->
+            <group id="meta_tags" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Meta Tags</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Enable Meta Tags Templates</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enable or disable meta tags templates functionality.</comment>
+                </field>
+                <field id="override_existing" translate="label comment" type="select" sortOrder="20" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Enable Meta Tags Override</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enable meta tags templates to override existing meta tags set in entities.
+                    </comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="override_only_empty" translate="label comment" type="select" sortOrder="25" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Override Only Empty Meta Tags</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If set to Yes, templates will only be applied when meta tags are empty in the entity. If set to No, templates will override all meta tags.
+                    </comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                        <field id="override_existing">1</field>
+                    </depends>
+                </field>
+                <field id="override_title" translate="label comment" type="select" sortOrder="30" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Override Meta Title</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Override existing meta title even if it's already set.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                        <field id="override_existing">1</field>
+                    </depends>
+                </field>
+                <field id="override_description" translate="label comment" type="select" sortOrder="40"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Override Meta Description</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Override existing meta description even if it's already set.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                        <field id="override_existing">1</field>
+                    </depends>
+                </field>
+                <field id="override_keywords" translate="label comment" type="select" sortOrder="50" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Override Meta Keywords</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Override existing meta keywords even if it's already set.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                        <field id="override_existing">1</field>
+                    </depends>
+                </field>
+            </group>
+
+            <!-- Canonical Settings -->
+            <group id="canonical" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Canonical URLs</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Enable Canonical URLs</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enable or disable canonical URLs functionality.</comment>
+                </field>
+                <field id="product_enabled" translate="label comment" type="select" sortOrder="20" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Enable for Products</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enable or disable canonical URLs for product pages.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="product_url_type" translate="label comment" type="select" sortOrder="30" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Product Canonical URL Type</label>
+                    <source_model>Defox\SEOSuite\Model\Config\Source\ProductCanonicalType</source_model>
+                    <comment>Select the type of canonical URL to use for products.</comment>
+                    <depends>
+                        <field id="product_enabled">1</field>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="category_enabled" translate="label comment" type="select" sortOrder="40" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Enable for Categories</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enable or disable canonical URLs for category pages.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="category_pagination" translate="label comment" type="select" sortOrder="50" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Use Canonical for Category Pagination</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If enabled, canonical URLs will be used for paginated category pages.</comment>
+                    <depends>
+                        <field id="category_enabled">1</field>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="category_pagination_type" translate="label comment" type="select" sortOrder="60"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Category Pagination Canonical Type</label>
+                    <source_model>Defox\SEOSuite\Model\Config\Source\PaginationCanonicalType</source_model>
+                    <comment>Select the type of canonical URL to use for paginated category pages.</comment>
+                    <depends>
+                        <field id="category_enabled">1</field>
+                        <field id="category_pagination">1</field>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="category_filters" translate="label comment" type="select" sortOrder="70" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Use Canonical for Category Filters</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If enabled, canonical URLs will be used for filtered category pages.</comment>
+                    <depends>
+                        <field id="category_enabled">1</field>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="exclude_patterns" translate="label comment" type="textarea" sortOrder="80" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Exclude URL Patterns</label>
+                    <comment>Enter URL patterns to exclude from canonical tags (one per line). Use * as a wildcard.
+                    </comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="exclude_invisible_products" translate="label comment" type="select" sortOrder="90"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Exclude Invisible Products</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If enabled, canonical tags will not be added to products with 'Not Visible Individually'
+                        visibility.
+                    </comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                        <field id="product_enabled">1</field>
+                    </depends>
+                </field>
+                <field id="exclude_anchor_categories" translate="label comment" type="select" sortOrder="100"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Exclude Anchor Categories</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If enabled, canonical tags will not be added to anchor categories.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                        <field id="category_enabled">1</field>
+                    </depends>
+                </field>
+                <field id="excluded_product_types" translate="label comment" type="multiselect" sortOrder="110"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Excluded Product Types</label>
+                    <source_model>Defox\SEOSuite\Model\Config\Source\ProductTypes</source_model>
+                    <comment>Select product types that should not have canonical tags.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                        <field id="product_enabled">1</field>
+                    </depends>
+                </field>
+                <field id="excluded_cms_pages" translate="label comment" type="multiselect" sortOrder="120"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Excluded CMS Pages</label>
+                    <source_model>Defox\SEOSuite\Model\Config\Source\CmsPages</source_model>
+                    <comment>Select CMS pages that should not have canonical tags.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="cache_enabled" translate="label comment" type="select" sortOrder="130" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Enable Canonical Cache</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enable or disable caching for canonical URLs. Recommended for performance.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="cache_lifetime" translate="label comment" type="text" sortOrder="140" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Canonical Cache Lifetime</label>
+                    <validate>validate-digits</validate>
+                    <comment>Cache lifetime in seconds. Default: 86400 (24 hours)</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                        <field id="cache_enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+
+            <!-- Friendly URLs Settings -->
+            <group id="friendly_urls" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Friendly URLs</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Enable Friendly URLs for Filters</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enable or disable friendly URLs for category filters.</comment>
+                </field>
+                <field id="url_pattern" translate="label comment" type="select" sortOrder="20" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>URL Pattern</label>
+                    <source_model>Defox\SEOSuite\Model\Config\Source\FriendlyUrlPattern</source_model>
+                    <comment>Select the pattern for friendly URLs.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="filter_separator" translate="label comment" type="text" sortOrder="30" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Filter Separator</label>
+                    <comment>Character to use as separator between filters.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="value_separator" translate="label comment" type="text" sortOrder="40" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Value Separator</label>
+                    <comment>Character to use as separator between attribute and value.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="multivalue_separator" translate="label comment" type="text" sortOrder="50" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Multi-Value Separator</label>
+                    <comment>Character to use as separator between multiple values of the same attribute.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="attribute_url_map" translate="label comment" type="textarea" sortOrder="60" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Attribute URL Map</label>
+                    <comment>Map attribute codes to friendly URL keys. Format: attribute_code=friendly_name (one per
+                        line)
+                    </comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+            <!-- Structured Data Settings -->
+            <group id="structured_data" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Structured Data (JSON-LD)</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Enable Structured Data</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enable or disable structured data generation (JSON-LD format).</comment>
+                </field>
+                <field id="product_enabled" translate="label comment" type="select" sortOrder="20" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Enable for Products</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Generate structured data for product pages.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="category_enabled" translate="label comment" type="select" sortOrder="30" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Enable for Categories</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Generate structured data for category pages.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="organization_enabled" translate="label comment" type="select" sortOrder="40"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Organization Data</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Include organization information in structured data.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="website_enabled" translate="label comment" type="select" sortOrder="50" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Enable Website Data</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Include website information in structured data.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="reviews_enabled" translate="label comment" type="select" sortOrder="60" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Include Reviews</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Include product reviews in structured data.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                        <field id="product_enabled">1</field>
+                    </depends>
+                </field>
+                <field id="cache_enabled" translate="label comment" type="select" sortOrder="70" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Enable Structured Data Cache</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enable caching for structured data. Recommended for performance.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="cache_lifetime" translate="label comment" type="text" sortOrder="80" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Cache Lifetime</label>
+                    <validate>validate-digits</validate>
+                    <comment>Cache lifetime in seconds. Default: 86400 (24 hours)</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                        <field id="cache_enabled">1</field>
+                    </depends>
+                </field>
+                <field id="category_product_list_enabled" translate="label comment" type="select" sortOrder="90"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Include Product List in Categories</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Include product list in category structured data.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                        <field id="category_enabled">1</field>
+                    </depends>
+                </field>
+                <field id="category_product_limit" translate="label comment" type="text" sortOrder="100"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Category Product Limit</label>
+                    <validate>validate-digits</validate>
+                    <comment>Maximum number of products to include in category structured data.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                        <field id="category_enabled">1</field>
+                        <field id="category_product_list_enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+
+            <!-- Organization Data -->
+            <group id="structured_data_organization" translate="label" type="text" sortOrder="70" showInDefault="1"
+                   showInWebsite="1" showInStore="1">
+                <label>Organization Information</label>
+                <comment>This section requires 'Enable Structured Data' and 'Enable Organization Data' to be set to
+                    Yes.
+                </comment>
+                <field id="name" translate="label comment" type="text" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Organization Name</label>
+                    <comment>Your organization/company name.</comment>
+                </field>
+                <field id="type" translate="label comment" type="select" sortOrder="20" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Organization Type</label>
+                    <source_model>Defox\SEOSuite\Model\Config\Source\OrganizationType</source_model>
+                    <comment>Select the type of organization.</comment>
+                </field>
+                <field id="logo" translate="label comment" type="text" sortOrder="30" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Logo URL</label>
+                    <comment>Full URL to your organization logo.</comment>
+                </field>
+                <field id="description" translate="label comment" type="textarea" sortOrder="40" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Description</label>
+                    <comment>Brief description of your organization.</comment>
+                </field>
+                <field id="founding_date" translate="label comment" type="text" sortOrder="50" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Founding Date</label>
+                    <comment>Date when the organization was founded (YYYY-MM-DD).</comment>
+                </field>
+                <field id="tax_id" translate="label comment" type="text" sortOrder="60" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Tax ID</label>
+                    <comment>Organization tax identification number.</comment>
+                </field>
+                <field id="vat_id" translate="label comment" type="text" sortOrder="70" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>VAT ID</label>
+                    <comment>VAT identification number.</comment>
+                </field>
+
+                <field id="heading_address" translate="label" type="label" sortOrder="100" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Address Information</label>
+                    <frontend_model>Magento\Config\Block\System\Config\Form\Field\Heading</frontend_model>
+                </field>
+                <field id="street_address" translate="label comment" type="text" sortOrder="110" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Street Address</label>
+                </field>
+                <field id="locality" translate="label comment" type="text" sortOrder="120" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>City</label>
+                </field>
+                <field id="region" translate="label comment" type="text" sortOrder="130" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>State/Region</label>
+                </field>
+                <field id="postal_code" translate="label comment" type="text" sortOrder="140" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Postal Code</label>
+                </field>
+                <field id="country" translate="label comment" type="text" sortOrder="150" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Country</label>
+                    <comment>ISO 3166-1 alpha-2 country code (e.g., US, GB, PL).</comment>
+                </field>
+
+                <field id="heading_contact" translate="label" type="label" sortOrder="200" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Contact Information</label>
+                    <frontend_model>Magento\Config\Block\System\Config\Form\Field\Heading</frontend_model>
+                </field>
+                <field id="customer_service_phone" translate="label" type="text" sortOrder="210" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Customer Service Phone</label>
+                </field>
+                <field id="customer_service_email" translate="label" type="text" sortOrder="220" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Customer Service Email</label>
+                </field>
+                <field id="tech_support_phone" translate="label" type="text" sortOrder="230" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Tech Support Phone</label>
+                </field>
+                <field id="tech_support_email" translate="label" type="text" sortOrder="240" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Tech Support Email</label>
+                </field>
+                <field id="sales_phone" translate="label" type="text" sortOrder="250" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Sales Phone</label>
+                </field>
+                <field id="sales_email" translate="label" type="text" sortOrder="260" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Sales Email</label>
+                </field>
+                <field id="available_languages" translate="label comment" type="text" sortOrder="270" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Available Languages</label>
+                    <comment>Comma-separated list of ISO 639-1 language codes (e.g., en,pl,de).</comment>
+                </field>
+                <field id="area_served" translate="label comment" type="text" sortOrder="280" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Area Served</label>
+                    <comment>Comma-separated list of countries or regions served.</comment>
+                </field>
+
+                <field id="heading_social" translate="label" type="label" sortOrder="300" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Social Profiles</label>
+                    <frontend_model>Magento\Config\Block\System\Config\Form\Field\Heading</frontend_model>
+                </field>
+                <field id="facebook" translate="label" type="text" sortOrder="310" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Facebook URL</label>
+                </field>
+                <field id="twitter" translate="label" type="text" sortOrder="320" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Twitter/X URL</label>
+                </field>
+                <field id="instagram" translate="label" type="text" sortOrder="330" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Instagram URL</label>
+                </field>
+                <field id="youtube" translate="label" type="text" sortOrder="340" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>YouTube URL</label>
+                </field>
+                <field id="linkedin" translate="label" type="text" sortOrder="350" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>LinkedIn URL</label>
+                </field>
+                <field id="pinterest" translate="label" type="text" sortOrder="360" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Pinterest URL</label>
+                </field>
+                <field id="tiktok" translate="label" type="text" sortOrder="370" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>TikTok URL</label>
+                </field>
+            </group>
+
+            <!-- Website Data -->
+            <group id="structured_data_website" translate="label" type="text" sortOrder="80" showInDefault="1"
+                   showInWebsite="1" showInStore="1">
+                <label>Website Information</label>
+                <comment>This section requires 'Enable Structured Data' and 'Enable Website Data' to be set to Yes.
+                </comment>
+                <field id="alternate_name" translate="label comment" type="text" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Alternate Name</label>
+                    <comment>Alternative name for your website (e.g., commonly used abbreviation).</comment>
+                </field>
+                <field id="sitelinks_searchbox_enabled" translate="label comment" type="select" sortOrder="20"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Sitelinks Searchbox</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enable Google Sitelinks Searchbox for your website.</comment>
+                </field>
+                <field id="sitelinks_searchbox_url" translate="label comment" type="text" sortOrder="30"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Search URL Pattern</label>
+                    <comment>Custom search URL pattern. Use {base_url} and {search_term} as placeholders.</comment>
+                    <depends>
+                        <field id="sitelinks_searchbox_enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+
+            <!-- Product Attributes Mapping -->
+            <group id="structured_data_product" translate="label" type="text" sortOrder="90" showInDefault="1"
+                   showInWebsite="1" showInStore="1">
+                <label>Product Attribute Mapping</label>
+                <comment>This section requires 'Enable Structured Data' and 'Enable for Products' to be set to Yes.
+                </comment>
+                <field id="brand_attribute" translate="label comment" type="select" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Brand Attribute</label>
+                    <source_model>Defox\SEOSuite\Model\Config\Source\ProductAttributes</source_model>
+                    <comment>Select the attribute to use for product brand.</comment>
+                </field>
+                <field id="model_attribute" translate="label comment" type="select" sortOrder="20" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Model Attribute</label>
+                    <source_model>Defox\SEOSuite\Model\Config\Source\ProductAttributes</source_model>
+                    <comment>Select the attribute to use for product model.</comment>
+                </field>
+                <field id="gtin8_attribute" translate="label comment" type="select" sortOrder="30" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>GTIN-8 Attribute</label>
+                    <source_model>Defox\SEOSuite\Model\Config\Source\ProductAttributes</source_model>
+                    <comment>Select the attribute to use for GTIN-8 (8-digit barcode).</comment>
+                </field>
+                <field id="gtin13_attribute" translate="label comment" type="select" sortOrder="40" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>GTIN-13/EAN Attribute</label>
+                    <source_model>Defox\SEOSuite\Model\Config\Source\ProductAttributes</source_model>
+                    <comment>Select the attribute to use for GTIN-13/EAN (13-digit barcode).</comment>
+                </field>
+                <field id="gtin14_attribute" translate="label comment" type="select" sortOrder="50" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>GTIN-14 Attribute</label>
+                    <source_model>Defox\SEOSuite\Model\Config\Source\ProductAttributes</source_model>
+                    <comment>Select the attribute to use for GTIN-14 (14-digit barcode).</comment>
+                </field>
+                <field id="mpn_attribute" translate="label comment" type="select" sortOrder="60" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>MPN Attribute</label>
+                    <source_model>Defox\SEOSuite\Model\Config\Source\ProductAttributes</source_model>
+                    <comment>Select the attribute to use for Manufacturer Part Number.</comment>
+                </field>
+                <field id="condition_attribute" translate="label comment" type="select" sortOrder="70" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Condition Attribute</label>
+                    <source_model>Defox\SEOSuite\Model\Config\Source\ProductAttributes</source_model>
+                    <comment>Select the attribute to use for product condition (new/used/refurbished).</comment>
+                </field>
+                <field id="property_mappings" translate="label comment" type="textarea" sortOrder="80" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Additional Property Mappings</label>
+                    <comment>Map additional product attributes to schema.org properties. Format:
+                        property_name=attribute_code (one per line).
+                    </comment>
+                </field>
+                <field id="attribute_mappings_product" translate="label comment" type="textarea" sortOrder="90"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Custom Attribute Mappings</label>
+                    <comment>Advanced: Custom schema.org field mappings in JSON format.</comment>
+                </field>
+            </group>
+
+            <!-- Sitemap Settings -->
+            <group id="sitemap" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>XML Sitemap</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Enable XML Sitemap</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enable or disable XML sitemap generation.</comment>
+                </field>
+
+                <!-- Generation Settings -->
+                <field id="heading_generation" translate="label" type="label" sortOrder="20" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Generation Settings</label>
+                    <frontend_model>Magento\Config\Block\System\Config\Form\Field\Heading</frontend_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="path" translate="label comment" type="text" sortOrder="30" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Sitemap Path</label>
+                    <comment>Path relative to Magento root directory where sitemap files will be stored. Default: media/maps/</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="enable_compression" translate="label comment" type="select" sortOrder="40"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Gzip Compression</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Compress sitemap files using gzip to reduce size.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="generation_cron_expr" translate="label comment" type="text" sortOrder="50" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Cron Schedule</label>
+                    <comment>Cron expression for automatic generation. Default: 0 2 * * * (daily at 2 AM)</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="ping_search_engines" translate="label comment" type="select" sortOrder="60"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Ping Search Engines</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Automatically notify search engines after sitemap generation.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="enable_hreflang" translate="label comment" type="select" sortOrder="65"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Hreflang Tags</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Include hreflang tags for multilingual sitemaps.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="generation_error_notification" translate="label comment" type="select" sortOrder="70"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Error Notifications</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Send email notifications when sitemap generation fails.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+
+                <!-- Product Settings Group -->
+                <group id="product" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Product Settings</label>
+                    <depends>
+                        <field id="*/sitemap/enabled">1</field>
+                    </depends>
+                    
+                    <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enable Products in Sitemap</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <comment>Include products in sitemap generation.</comment>
+                    </field>
+                    
+                    <field id="changefreq" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Change Frequency</label>
+                        <source_model>Defox\SEOSuite\Model\Config\Source\Changefreq</source_model>
+                        <comment>How frequently product pages are likely to change.</comment>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                    </field>
+                    
+                    <field id="priority" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Priority</label>
+                        <validate>validate-number validate-number-range number-range-0-1</validate>
+                        <comment>Priority of product pages relative to other URLs (0.0 to 1.0).</comment>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                    </field>
+                    
+                    <field id="include_images" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Include Product Images</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <comment>Include product images in sitemap entries.</comment>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                    </field>
+                    
+                    <field id="exclude_out_of_stock" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Exclude Out of Stock Products</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <comment>Exclude out of stock products from sitemap.</comment>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                    </field>
+                    
+                    <field id="excluded_types" translate="label comment" type="multiselect" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Excluded Product Types</label>
+                        <source_model>Defox\SEOSuite\Model\Config\Source\ProductTypes</source_model>
+                        <comment>Product types to exclude from sitemap.</comment>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                    </field>
+                    
+                    <field id="exclude_invisible" translate="label comment" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Exclude Invisible Products</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <comment>Exclude products with 'Not Visible Individually' visibility.</comment>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                    </field>
+                </group>
+                
+                <!-- Category Settings Group -->
+                <group id="category" translate="label" type="text" sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Category Settings</label>
+                    <depends>
+                        <field id="*/sitemap/enabled">1</field>
+                    </depends>
+                    
+                    <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enable Categories in Sitemap</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <comment>Include categories in sitemap generation.</comment>
+                    </field>
+                    
+                    <field id="changefreq" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Change Frequency</label>
+                        <source_model>Defox\SEOSuite\Model\Config\Source\Changefreq</source_model>
+                        <comment>How frequently category pages are likely to change.</comment>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                    </field>
+                    
+                    <field id="priority" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Priority</label>
+                        <validate>validate-number validate-number-range number-range-0-1</validate>
+                        <comment>Priority of category pages relative to other URLs (0.0 to 1.0).</comment>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                    </field>
+                    
+                    <field id="exclude_anchor" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Exclude Anchor Categories</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <comment>Exclude anchor categories from sitemap.</comment>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                    </field>
+                    
+                    <field id="exclude_inactive" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Exclude Inactive Categories</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <comment>Exclude inactive categories from sitemap.</comment>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                    </field>
+                    
+                    <field id="max_depth" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Maximum Category Depth</label>
+                        <validate>validate-digits</validate>
+                        <comment>Maximum category depth to include (0 = no limit).</comment>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                    </field>
+                </group>
+                
+                <!-- CMS Page Settings Group -->
+                <group id="cms_page" translate="label" type="text" sortOrder="220" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>CMS Page Settings</label>
+                    <depends>
+                        <field id="*/sitemap/enabled">1</field>
+                    </depends>
+                    
+                    <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enable CMS Pages in Sitemap</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <comment>Include CMS pages in sitemap generation.</comment>
+                    </field>
+                    
+                    <field id="changefreq" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Change Frequency</label>
+                        <source_model>Defox\SEOSuite\Model\Config\Source\Changefreq</source_model>
+                        <comment>How frequently CMS pages are likely to change.</comment>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                    </field>
+                    
+                    <field id="priority" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Priority</label>
+                        <validate>validate-number validate-number-range number-range-0-1</validate>
+                        <comment>Priority of CMS pages relative to other URLs (0.0 to 1.0).</comment>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                    </field>
+                    
+                    <field id="excluded_pages" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Excluded Page Identifiers</label>
+                        <comment>Comma-separated list of page identifiers to exclude from sitemap.</comment>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                    </field>
+                    
+                    <field id="exclude_system_pages" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Exclude System Pages</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <comment>Exclude system pages (404, cookies, etc.) from sitemap.</comment>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                    </field>
+                </group>
+                
+                <!-- Additional Links Settings Group -->
+                <group id="additional_links" translate="label" type="text" sortOrder="230" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Additional Links Settings</label>
+                    <depends>
+                        <field id="*/sitemap/enabled">1</field>
+                    </depends>
+                    
+                    <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enable Additional Links in Sitemap</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <comment>Include additional custom links in sitemap generation.</comment>
+                    </field>
+                    
+                    <field id="changefreq" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Change Frequency</label>
+                        <source_model>Defox\SEOSuite\Model\Config\Source\Changefreq</source_model>
+                        <comment>How frequently additional links are likely to change.</comment>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                    </field>
+                    
+                    <field id="priority" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Priority</label>
+                        <validate>validate-number validate-number-range number-range-0-1</validate>
+                        <comment>Priority of additional links relative to other URLs (0.0 to 1.0).</comment>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                    </field>
+                    
+                    <field id="custom_links" translate="label comment" type="textarea" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Custom Links</label>
+                        <comment>Custom URLs to include in sitemap (one per line). Format: URL|priority|changefreq</comment>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                    </field>
+                </group>
+            </group>
+            
+
+        </section>
+    </system>
+</config>

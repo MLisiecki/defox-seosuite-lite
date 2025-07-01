@@ -1,0 +1,35 @@
+<!--
+/**
+ * Variables display template
+ *
+ * @package     Defox_SEOSuite
+ * @copyright   Copyright (c) 2024 Defox (https://defox.com)
+ * @license     Defox Proprietary License
+ */
+-->
+<div class="defox-variables-display" data-bind="visible: hasVariables()">
+    <div class="admin__field-note">
+        <span data-bind="i18n: 'Click on any variable to copy it to clipboard'"></span>
+    </div>
+    
+    <!-- ko foreach: Object.keys(getGroupedVariables()) -->
+    <div class="defox-variables-category">
+        <h4 class="defox-variables-category-title" data-bind="text: $parent.getCategoryLabel($data)"></h4>
+        
+        <div class="defox-variables-grid">
+            <!-- ko foreach: $parent.getGroupedVariables()[$data] -->
+            <div class="defox-variable-item" data-bind="click: $parents[1].copyVariable.bind($parents[1])">
+                <div class="defox-variable-code" data-bind="text: template"></div>
+                <div class="defox-variable-description" data-bind="text: description"></div>
+            </div>
+            <!-- /ko -->
+        </div>
+    </div>
+    <!-- /ko -->
+</div>
+
+<div class="defox-variables-empty" data-bind="visible: !hasVariables()">
+    <div class="admin__field-note">
+        <span data-bind="i18n: 'Select an entity type to see available variables'"></span>
+    </div>
+</div>

@@ -1,0 +1,158 @@
+<?php
+/**
+ * @package     Defox_SEOSuite
+ * @author      Marcin Lisiecki
+ * @copyright   Copyright (c) 2025 deFox
+ * @license     MIT
+ */
+
+$stats = $block->getQuickStats();
+$indicators = $block->getStatusIndicators();
+$tools = $block->getManagementTools();
+$enabledStores = $block->getEnabledStores();
+?>
+
+<div class="admin__page-nav-title">
+    <p class="page-subtitle"><?= $block->escapeHtml(__('Manage XML sitemaps for better search engine visibility')) ?></p>
+</div>
+
+<!-- Status Overview -->
+<div class="sitemap-overview">
+    <div class="admin__data-grid-wrap">
+        <div class="admin__data-grid-header">
+            <div class="admin__data-grid-header-row">
+                <div class="admin__data-grid-header-column">
+                    <h2><?= $block->escapeHtml(__('Current Status')) ?></h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin__data-grid-body">
+            <!-- Quick Stats Cards -->
+            <div class="stats-cards">
+                <div class="stat-card <?= $stats['sitemap_enabled'] ? 'status-success' : 'status-error' ?>">
+                    <div class="stat-icon">
+                        <i class="<?= $stats['sitemap_enabled'] ? 'icon-check' : 'icon-cross' ?>"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3><?= $stats['sitemap_enabled'] ? __('Enabled') : __('Disabled') ?></h3>
+                        <p><?= $block->escapeHtml(__('Global Status')) ?></p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <span class="stat-number"><?= $stats['enabled_stores'] ?></span>
+                    </div>
+                    <div class="stat-content">
+                        <h3><?= $block->escapeHtml(__('Active Stores')) ?></h3>
+                        <p><?= $block->escapeHtml(__('of %1 total', $stats['total_stores'])) ?></p>
+                    </div>
+                </div>
+
+                <div class="stat-card <?= $stats['configuration_complete'] ? 'status-success' : 'status-warning' ?>">
+                    <div class="stat-icon">
+                        <i class="<?= $stats['configuration_complete'] ? 'icon-check' : 'icon-warning' ?>"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3><?= $stats['configuration_complete'] ? __('Ready') : __('Needs Setup') ?></h3>
+                        <p><?= $block->escapeHtml(__('Configuration')) ?></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Status Indicators -->
+            <?php if (!empty($indicators)): ?>
+                <div class="status-indicators">
+                    <?php foreach ($indicators as $indicator): ?>
+                        <div class="indicator-item indicator-<?= $block->escapeHtmlAttr($indicator['type']) ?>">
+                            <div class="indicator-content">
+                                <h4><?= $block->escapeHtml($indicator['title']) ?></h4>
+                                <p><?= $block->escapeHtml($indicator['message']) ?></p>
+                            </div>
+                            <?php if (isset($indicator['action_url'])): ?>
+                                <div class="indicator-action">
+                                    <a href="<?= $block->escapeUrl($indicator['action_url']) ?>" class="action-secondary">
+                                        <span><?= $block->escapeHtml($indicator['action_text']) ?></span>
+                                    </a>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+
+<!-- Enabled Stores -->
+<?php if (!empty($enabledStores)): ?>
+    <div class="enabled-stores-section">
+        <div class="admin__data-grid-wrap">
+            <div class="admin__data-grid-header">
+                <div class="admin__data-grid-header-row">
+                    <div class="admin__data-grid-header-column">
+                        <h2><?= $block->escapeHtml(__('Enabled Stores')) ?></h2>
+                        <p class="note"><?= $block->escapeHtml(__('Stores with sitemap generation enabled')) ?></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin__data-grid-body">
+                <div class="stores-grid">
+                    <?php foreach ($enabledStores as $store): ?>
+                        <div class="store-card">
+                            <div class="store-info">
+                                <h4><?= $block->escapeHtml($store['name']) ?></h4>
+                                <p class="store-code"><?= $block->escapeHtml($store['code']) ?></p>
+                                <p class="store-website"><?= $block->escapeHtml($store['website']) ?></p>
+                            </div>
+                            <div class="store-actions">
+                                <a href="<?= $block->escapeUrl($block->getGenerateSitemapUrl() . '?store=' . $store['id']) ?>" 
+                                   class="action-secondary action-small">
+                                    <span><?= $block->escapeHtml(__('Generate')) ?></span>
+                                </a>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
+<!-- Management Tools -->
+<div class="management-tools">
+    <div class="admin__data-grid-wrap">
+        <div class="admin__data-grid-header">
+            <div class="admin__data-grid-header-row">
+                <div class="admin__data-grid-header-column">
+                    <h2><?= $block->escapeHtml(__('Management Tools')) ?></h2>
+                    <p class="note"><?= $block->escapeHtml(__('Tools for sitemap generation, validation and analysis')) ?></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin__data-grid-body">
+            <div class="tools-grid">
+                <?php foreach ($tools as $tool): ?>
+                    <div class="tool-card <?= $tool['primary'] ? 'tool-primary' : '' ?>">
+                        <div class="tool-icon">
+                            <i class="<?= $block->escapeHtmlAttr($tool['icon']) ?>"></i>
+                        </div>
+                        <div class="tool-content">
+                            <h3><?= $block->escapeHtml($tool['title']) ?></h3>
+                            <p><?= $block->escapeHtml($tool['description']) ?></p>
+                        </div>
+                        <div class="tool-action">
+                            <a href="<?= $block->escapeUrl($tool['url']) ?>" 
+                               class="<?= $tool['primary'] ? 'action-primary' : 'action-secondary' ?>">
+                                <span><?= $block->escapeHtml($tool['title']) ?></span>
+                            </a>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+</div>

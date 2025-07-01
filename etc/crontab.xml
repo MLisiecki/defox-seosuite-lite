@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Defox Team
+ * @copyright Copyright (c) 2025 Defox (https://defox.pl)
+ * @package Defox_SEOSuite
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="default">
+        <job name="defox_seosuite_generate_sitemap" instance="Defox\SEOSuite\Cron\GenerateSitemap" method="execute">
+            <config_path>defox_seosuite/sitemap/generation_cron_expr</config_path>
+        </job>
+    </group>
+</config>

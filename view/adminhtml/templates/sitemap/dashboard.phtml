@@ -1,0 +1,304 @@
+<?php
+/**
+ * @package     Defox_SEOSuite
+ * @author      Marcin Lisiecki 
+ * @copyright   Copyright (c) 2025 deFox
+ * @license     MIT
+ */
+
+$ajaxUrls = $block->getAjaxUrls();
+$chartConfig = $block->getChartConfig();
+$chartColors = $block->getChartColors();
+$initialData = $block->getInitialKpiData();
+$warnings = $block->getDashboardWarnings();
+$enabledStores = $block->getStoresWithSitemapEnabled();
+
+// Configuration for JavaScript module
+$jsConfig = [
+    'ajaxUrls' => $ajaxUrls,
+    'chartConfig' => $chartConfig,
+    'chartColors' => $chartColors,
+    'refreshInterval' => (int)$block->getDashboardRefreshInterval(),
+    'maxRecords' => (int)$block->getMaxDashboardRecords(),
+    'generateUrl' => $block->getGenerateSitemapUrl()
+];
+?>
+
+<div class="admin__page-nav-title">
+    <p class="page-subtitle"><?= $block->escapeHtml(__('View generation statistics and performance metrics')) ?></p>
+</div>
+
+<?php if (!empty($warnings)): ?>
+<div class="dashboard-warnings">
+    <?php foreach ($warnings as $warning): ?>
+    <div class="message message-<?= $block->escapeHtmlAttr($warning['type']) ?>">
+        <div class="message-inner">
+            <div class="message-content">
+                <span><?= $block->escapeHtml($warning['message']) ?></span>
+                <?php if (!empty($warning['action_url'])): ?>
+                    <a href="<?= $block->escapeUrl($warning['action_url']) ?>" class="action-primary action-small">
+                        <span><?= $block->escapeHtml($warning['action_text']) ?></span>
+                    </a>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+    <?php endforeach; ?>
+</div>
+<?php endif; ?>
+
+<?php if ($block->shouldShowWelcomeMessage()): ?>
+<div class="welcome-message">
+    <div class="admin__data-grid-wrap">
+        <div class="admin__data-grid-header">
+            <div class="admin__data-grid-header-row">
+                <div class="admin__data-grid-header-column">
+                    <h2><?= $block->escapeHtml(__('Welcome to Sitemap Management')) ?></h2>
+                    <p><?= $block->escapeHtml(__('Generate your first sitemap to start seeing analytics and reports here.')) ?></p>
+                    <div class="welcome-actions">
+                        <a href="<?= $block->escapeUrl($block->getGenerateSitemapUrl()) ?>" class="action-primary">
+                            <span><?= $block->escapeHtml(__('Generate First Sitemap')) ?></span>
+                        </a>
+                        <a href="<?= $block->escapeUrl($block->getSettingsUrl()) ?>" class="action-secondary">
+                            <span><?= $block->escapeHtml(__('Configure Settings')) ?></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+
+<!-- KPI Cards Section -->
+<div class="kpi-section">
+    <div class="admin__data-grid-wrap">
+        <div class="admin__data-grid-header">
+            <div class="admin__data-grid-header-row">
+                <div class="admin__data-grid-header-column">
+                    <h2><?= $block->escapeHtml(__('Key Performance Indicators')) ?></h2>
+                    <p class="note"><?= $block->escapeHtml(__('Statistics for the last 30 days')) ?></p>
+                </div>
+                <div class="admin__data-grid-header-column">
+                    <button type="button" class="action-secondary" id="refresh-kpi-btn">
+                        <span><?= $block->escapeHtml(__('Refresh Data')) ?></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="admin__data-grid-body">
+            <div class="kpi-cards-container" id="kpi-cards">
+                <!-- KPI Cards will be loaded via AJAX -->
+                <div class="kpi-card loading">
+                    <div class="kpi-card-header">
+                        <h3><?= $block->escapeHtml(__('Total Generations')) ?></h3>
+                        <div class="loading-spinner"></div>
+                    </div>
+                    <div class="kpi-card-value">
+                        <span class="value">-</span>
+                        <span class="period"><?= $block->escapeHtml(__('Last 30 days')) ?></span>
+                    </div>
+                </div>
+                
+                <div class="kpi-card loading">
+                    <div class="kpi-card-header">
+                        <h3><?= $block->escapeHtml(__('Success Rate')) ?></h3>
+                        <div class="loading-spinner"></div>
+                    </div>
+                    <div class="kpi-card-value">
+                        <span class="value">-</span>
+                        <span class="period">%</span>
+                    </div>
+                </div>
+                
+                <div class="kpi-card loading">
+                    <div class="kpi-card-header">
+                        <h3><?= $block->escapeHtml(__('Total URLs')) ?></h3>
+                        <div class="loading-spinner"></div>
+                    </div>
+                    <div class="kpi-card-value">
+                        <span class="value">-</span>
+                        <span class="period"><?= $block->escapeHtml(__('Generated')) ?></span>
+                    </div>
+                </div>
+                
+                <div class="kpi-card loading">
+                    <div class="kpi-card-header">
+                        <h3><?= $block->escapeHtml(__('Avg Duration')) ?></h3>
+                        <div class="loading-spinner"></div>
+                    </div>
+                    <div class="kpi-card-value">
+                        <span class="value">-</span>
+                        <span class="period"><?= $block->escapeHtml(__('seconds')) ?></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Section -->
+<div class="charts-section">
+    <div class="admin__data-grid-wrap">
+        <div class="admin__data-grid-header">
+            <div class="admin__data-grid-header-row">
+                <div class="admin__data-grid-header-column">
+                    <h2><?= $block->escapeHtml(__('Trends & Analytics')) ?></h2>
+                </div>
+            </div>
+        </div>
+        
+        <div class="admin__data-grid-body">
+            <div class="charts-container">
+                <!-- Timeline Chart -->
+                <div class="chart-wrapper">
+                    <div class="chart-header">
+                        <h3><?= $block->escapeHtml(__('Generation Timeline')) ?></h3>
+                        <p class="note"><?= $block->escapeHtml(__('Daily generation activity over the last 30 days')) ?></p>
+                    </div>
+                    <div class="chart-content">
+                        <canvas id="timeline-chart" width="800" height="400"></canvas>
+                        <div class="chart-loading" id="timeline-loading">
+                            <div class="loading-spinner"></div>
+                            <span><?= $block->escapeHtml(__('Loading chart data...')) ?></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Performance Chart -->
+                <div class="chart-wrapper">
+                    <div class="chart-header">
+                        <h3><?= $block->escapeHtml(__('Performance Trends')) ?></h3>
+                        <p class="note"><?= $block->escapeHtml(__('Generation duration and file size trends')) ?></p>
+                    </div>
+                    <div class="chart-content">
+                        <canvas id="performance-chart" width="800" height="400"></canvas>
+                        <div class="chart-loading" id="performance-loading">
+                            <div class="loading-spinner"></div>
+                            <span><?= $block->escapeHtml(__('Loading performance data...')) ?></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Activity Section -->
+<div class="recent-activity-section">
+    <div class="admin__data-grid-wrap">
+        <div class="admin__data-grid-header">
+            <div class="admin__data-grid-header-row">
+                <div class="admin__data-grid-header-column">
+                    <h2><?= $block->escapeHtml(__('Recent Generation History')) ?></h2>
+                </div>
+                <div class="admin__data-grid-header-column">
+                    <button type="button" class="action-secondary" id="load-more-history">
+                        <span><?= $block->escapeHtml(__('Load More')) ?></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="admin__data-grid-body">
+            <div class="recent-history-container" id="recent-history">
+                <div class="history-loading">
+                    <div class="loading-spinner"></div>
+                    <span><?= $block->escapeHtml(__('Loading recent activity...')) ?></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Management Tools -->
+<div class="management-tools">
+    <div class="admin__data-grid-wrap">
+        <div class="admin__data-grid-header">
+            <div class="admin__data-grid-header-row">
+                <div class="admin__data-grid-header-column">
+                    <h2><?= $block->escapeHtml(__('Management Tools')) ?></h2>
+                    <p class="note"><?= $block->escapeHtml(__('Tools for sitemap generation, validation and analysis')) ?></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin__data-grid-body">
+            <div class="tools-grid">
+                <div class="tool-card tool-primary">
+                    <div class="tool-icon">
+                        <i class="icon-sitemap"></i>
+                    </div>
+                    <div class="tool-content">
+                        <h3><?= $block->escapeHtml(__('Generate Sitemap')) ?></h3>
+                        <p><?= $block->escapeHtml(__('Create XML sitemaps for your stores')) ?></p>
+                    </div>
+                    <div class="tool-action">
+                        <a href="<?= $block->escapeUrl($block->getUrl('defox_seosuite/sitemap/generate')) ?>" 
+                           class="action-primary">
+                            <span><?= $block->escapeHtml(__('Generate Sitemap')) ?></span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="icon-validate"></i>
+                    </div>
+                    <div class="tool-content">
+                        <h3><?= $block->escapeHtml(__('Validate Sitemap')) ?></h3>
+                        <p><?= $block->escapeHtml(__('Validate existing sitemaps for SEO compliance')) ?></p>
+                    </div>
+                    <div class="tool-action">
+                        <a href="<?= $block->escapeUrl($block->getUrl('defox_seosuite/sitemap/validate')) ?>" 
+                           class="action-secondary">
+                            <span><?= $block->escapeHtml(__('Validate Sitemap')) ?></span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="icon-analytics"></i>
+                    </div>
+                    <div class="tool-content">
+                        <h3><?= $block->escapeHtml(__('Analytics & Reports')) ?></h3>
+                        <p><?= $block->escapeHtml(__('View generation statistics and performance')) ?></p>
+                    </div>
+                    <div class="tool-action">
+                        <a href="<?= $block->escapeUrl($block->getUrl('defox_seosuite/sitemap/dashboard')) ?>" 
+                           class="action-secondary">
+                            <span><?= $block->escapeHtml(__('Analytics & Reports')) ?></span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="icon-settings"></i>
+                    </div>
+                    <div class="tool-content">
+                        <h3><?= $block->escapeHtml(__('Settings')) ?></h3>
+                        <p><?= $block->escapeHtml(__('Configure sitemap generation options')) ?></p>
+                    </div>
+                    <div class="tool-action">
+                        <a href="<?= $block->escapeUrl($block->getUrl('adminhtml/system_config/edit/section/defox_seosuite')) ?>" 
+                           class="action-secondary">
+                            <span><?= $block->escapeHtml(__('Settings')) ?></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Initialize Dashboard Module -->
+<script type="text/x-magento-init">
+{
+    "*": {
+        "Defox_SEOSuite/js/sitemap-dashboard": <?= /* @noEscape */ json_encode($jsConfig) ?>
+    }
+}
+</script>

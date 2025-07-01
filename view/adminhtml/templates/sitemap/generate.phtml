@@ -1,0 +1,593 @@
+<?php
+/**
+ * @package     Defox_SEOSuite
+ * @author      Marcin Lisiecki 
+ * @copyright   Copyright (c) 2025 deFox
+ * @license     MIT
+ */
+$warnings = $block->getConfigurationWarnings();
+$stores = $block->getAvailableStores();
+$options = $block->getDefaultOptions();
+?>
+
+<div class="admin__page-nav-title">
+    <p class="page-subtitle"><?= $block->escapeHtml(__('Create XML sitemaps for your stores with customizable options')) ?></p>
+</div>
+
+<!-- Configuration Warnings -->
+<?php if (!empty($warnings)): ?>
+<div class="sitemap-warnings">
+    <div class="admin__data-grid-wrap">
+        <div class="admin__data-grid-header">
+            <div class="admin__data-grid-header-row">
+                <div class="admin__data-grid-header-column">
+                    <h2><?= $block->escapeHtml(__('Configuration Warnings')) ?></h2>
+                </div>
+            </div>
+        </div>
+        <div class="admin__data-grid-body">
+            <div class="warning-indicators">
+                <?php foreach ($warnings as $warning): ?>
+                    <div class="indicator-item indicator-warning">
+                        <div class="indicator-content">
+                            <p><?= $block->escapeHtml($warning) ?></p>
+                        </div>
+                        <div class="indicator-action">
+                            <a href="<?= $block->escapeUrl($block->getUrl('adminhtml/system_config/edit/section/defox_seosuite')) ?>" class="action-secondary">
+                                <span><?= $block->escapeHtml(__('Go to Settings')) ?></span>
+                            </a>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+
+<!-- Generation Form -->
+<div class="sitemap-generation">
+    <div class="admin__data-grid-wrap">
+        <div class="admin__data-grid-header">
+            <div class="admin__data-grid-header-row">
+                <div class="admin__data-grid-header-column">
+                    <h2><?= $block->escapeHtml(__('Manual Sitemap Generation')) ?></h2>
+                    <p class="note"><?= $block->escapeHtml(__('Generate XML sitemaps for selected stores. Estimated time: %1', $block->getEstimatedTime())) ?></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin__data-grid-body">
+            <form id="sitemap-generate-form" method="post" action="<?= $block->escapeUrl($block->getGenerationUrl()) ?>">
+                <input type="hidden" name="form_key" value="<?= $block->escapeHtmlAttr($block->getFormKey()) ?>" />
+                
+                <!-- Store Selection Section -->
+                <div class="generation-section">
+                    <div class="generation-card">
+                        <div class="card-header">
+                            <h3><?= $block->escapeHtml(__('Store Selection')) ?></h3>
+                            <p class="note"><?= $block->escapeHtml(__('Choose which stores to generate sitemaps for')) ?></p>
+                        </div>
+                        
+                        <div class="card-content">
+                            <?php if (empty($stores)): ?>
+                                <div class="indicator-item indicator-error">
+                                    <div class="indicator-content">
+                                        <p><?= $block->escapeHtml(__('No active stores found.')) ?></p>
+                                    </div>
+                                </div>
+                            <?php else: ?>
+                                <div class="stores-selection">
+                                    <div class="select-all-option">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="select-all-stores" />
+                                            <span class="checkbox-text"><?= $block->escapeHtml(__('Select All Stores')) ?></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="stores-grid">
+                                        <?php foreach ($stores as $store): ?>
+                                        <div class="store-option <?= !$store['enabled'] ? 'store-disabled' : '' ?>">
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" 
+                                                       name="store_ids[]" 
+                                                       value="<?= $block->escapeHtmlAttr($store['value']) ?>"
+                                                       class="store-checkbox"
+                                                       <?= $store['enabled'] ? 'checked' : '' ?> />
+                                                <span class="checkbox-text">
+                                                    <strong><?= $block->escapeHtml($store['label']) ?></strong>
+                                                    <?php if (!$store['enabled']): ?>
+                                                        <small class="note"><?= $block->escapeHtml(__('(Sitemap disabled for this store)')) ?></small>
+                                                    <?php endif; ?>
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Generation Options Section -->
+                <div class="generation-section">
+                    <div class="generation-card">
+                        <div class="card-header">
+                            <h3><?= $block->escapeHtml(__('Generation Options')) ?></h3>
+                            <p class="note"><?= $block->escapeHtml(__('Configure how sitemaps should be generated')) ?></p>
+                        </div>
+                        
+                        <div class="card-content">
+                            <div class="options-grid">
+                                <div class="option-item">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" 
+                                               name="force_regeneration" 
+                                               value="1"
+                                               <?= $options['force_regeneration'] ? 'checked' : '' ?> />
+                                        <span class="checkbox-text">
+                                            <strong><?= $block->escapeHtml(__('Force Regeneration')) ?></strong>
+                                            <small class="note"><?= $block->escapeHtml(__('Regenerate even if sitemap files already exist')) ?></small>
+                                        </span>
+                                    </label>
+                                </div>
+                                
+                                <div class="option-item">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" 
+                                               name="ping_search_engines" 
+                                               value="1"
+                                               <?= $options['ping_search_engines'] ? 'checked' : '' ?>
+                                               <?= $block->canPingSearchEngines() ? '' : 'disabled' ?> />
+                                        <span class="checkbox-text">
+                                            <strong><?= $block->escapeHtml(__('Ping Search Engines')) ?></strong>
+                                            <small class="note"><?= $block->escapeHtml(__('Notify Google and Bing about updated sitemaps')) ?></small>
+                                        </span>
+                                    </label>
+                                </div>
+                                
+                                <div class="option-item">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" 
+                                               name="validate_after_generation" 
+                                               value="1"
+                                               <?= $options['validate_after_generation'] ? 'checked' : '' ?> />
+                                        <span class="checkbox-text">
+                                            <strong><?= $block->escapeHtml(__('Validate After Generation')) ?></strong>
+                                            <small class="note"><?= $block->escapeHtml(__('Automatically validate generated sitemaps')) ?></small>
+                                        </span>
+                                    </label>
+                                </div>
+                                
+                                <div class="option-item">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" 
+                                               name="include_images" 
+                                               value="1"
+                                               <?= $options['include_images'] ? 'checked' : '' ?> />
+                                        <span class="checkbox-text">
+                                            <strong><?= $block->escapeHtml(__('Include Images')) ?></strong>
+                                            <small class="note"><?= $block->escapeHtml(__('Add product images to sitemap')) ?></small>
+                                        </span>
+                                    </label>
+                                </div>
+                                
+                                <div class="option-item">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" 
+                                               name="include_hreflang" 
+                                               value="1"
+                                               <?= $options['include_hreflang'] ? 'checked' : '' ?> />
+                                        <span class="checkbox-text">
+                                            <strong><?= $block->escapeHtml(__('Include Hreflang')) ?></strong>
+                                            <small class="note"><?= $block->escapeHtml(__('Add language alternatives to sitemap')) ?></small>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="generation-section">
+                    <div class="generation-card">
+                        <div class="card-content">
+                            <div class="action-buttons">
+                                <button type="submit" 
+                                        class="action-primary" 
+                                        id="generate-sitemap-btn"
+                                        <?= empty($stores) ? 'disabled' : '' ?>>
+                                    <span><?= $block->escapeHtml(__('Generate Sitemap')) ?></span>
+                                </button>
+                                
+                                <button type="button" 
+                                        class="action-secondary" 
+                                        id="cancel-generation-btn"
+                                        style="display: none;">
+                                    <span><?= $block->escapeHtml(__('Cancel')) ?></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Progress Section -->
+<div id="generation-progress" class="generation-progress" style="display: none;">
+    <div class="admin__data-grid-wrap">
+        <div class="admin__data-grid-header">
+            <div class="admin__data-grid-header-row">
+                <div class="admin__data-grid-header-column">
+                    <h2><?= $block->escapeHtml(__('Generation Progress')) ?></h2>
+                </div>
+            </div>
+        </div>
+        
+        <div class="admin__data-grid-body">
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="progress-text">
+                    <span id="progress-message"><?= $block->escapeHtml(__('Initializing...')) ?></span>
+                    <span id="progress-percentage">0%</span>
+                </div>
+                <div id="current-store-info" class="current-store-info">
+                    <span id="current-store-name"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Results Section -->
+<div id="generation-results" class="generation-results" style="display: none;">
+    <div class="admin__data-grid-wrap">
+        <div class="admin__data-grid-header">
+            <div class="admin__data-grid-header-row">
+                <div class="admin__data-grid-header-column">
+                    <h2><?= $block->escapeHtml(__('Generation Results')) ?></h2>
+                </div>
+            </div>
+        </div>
+        
+        <div class="admin__data-grid-body">
+            <div id="results-summary" class="results-summary"></div>
+            <div id="results-details" class="results-details"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Management Tools -->
+<div class="management-tools">
+    <div class="admin__data-grid-wrap">
+        <div class="admin__data-grid-header">
+            <div class="admin__data-grid-header-row">
+                <div class="admin__data-grid-header-column">
+                    <h2><?= $block->escapeHtml(__('Management Tools')) ?></h2>
+                    <p class="note"><?= $block->escapeHtml(__('Tools for sitemap generation, validation and analysis')) ?></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin__data-grid-body">
+            <div class="tools-grid">
+                <div class="tool-card tool-primary">
+                    <div class="tool-icon">
+                        <i class="icon-sitemap"></i>
+                    </div>
+                    <div class="tool-content">
+                        <h3><?= $block->escapeHtml(__('Generate Sitemap')) ?></h3>
+                        <p><?= $block->escapeHtml(__('Create XML sitemaps for your stores')) ?></p>
+                    </div>
+                    <div class="tool-action">
+                        <a href="<?= $block->escapeUrl($block->getUrl('defox_seosuite/sitemap/generate')) ?>" 
+                           class="action-primary">
+                            <span><?= $block->escapeHtml(__('Generate Sitemap')) ?></span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="icon-validate"></i>
+                    </div>
+                    <div class="tool-content">
+                        <h3><?= $block->escapeHtml(__('Validate Sitemap')) ?></h3>
+                        <p><?= $block->escapeHtml(__('Validate existing sitemaps for SEO compliance')) ?></p>
+                    </div>
+                    <div class="tool-action">
+                        <a href="<?= $block->escapeUrl($block->getUrl('defox_seosuite/sitemap/validate')) ?>" 
+                           class="action-secondary">
+                            <span><?= $block->escapeHtml(__('Validate Sitemap')) ?></span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="icon-analytics"></i>
+                    </div>
+                    <div class="tool-content">
+                        <h3><?= $block->escapeHtml(__('Analytics & Reports')) ?></h3>
+                        <p><?= $block->escapeHtml(__('View generation statistics and performance')) ?></p>
+                    </div>
+                    <div class="tool-action">
+                        <a href="<?= $block->escapeUrl($block->getUrl('defox_seosuite/sitemap/dashboard')) ?>" 
+                           class="action-secondary">
+                            <span><?= $block->escapeHtml(__('Analytics & Reports')) ?></span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="icon-settings"></i>
+                    </div>
+                    <div class="tool-content">
+                        <h3><?= $block->escapeHtml(__('Settings')) ?></h3>
+                        <p><?= $block->escapeHtml(__('Configure sitemap generation options')) ?></p>
+                    </div>
+                    <div class="tool-action">
+                        <a href="<?= $block->escapeUrl($block->getUrl('adminhtml/system_config/edit/section/defox_seosuite')) ?>" 
+                           class="action-secondary">
+                            <span><?= $block->escapeHtml(__('Settings')) ?></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+require(['jquery', 'Magento_Ui/js/modal/alert'], function($, alert) {
+    $(document).ready(function() {
+        // Select all stores functionality
+        $('#select-all-stores').change(function() {
+            $('.store-checkbox').prop('checked', this.checked);
+        });
+        
+        // Update select all when individual checkboxes change
+        $('.store-checkbox').change(function() {
+            var total = $('.store-checkbox').length;
+            var checked = $('.store-checkbox:checked').length;
+            $('#select-all-stores').prop('indeterminate', checked > 0 && checked < total);
+            $('#select-all-stores').prop('checked', checked === total);
+        });
+        
+        // Form submission
+        $('#sitemap-generate-form').submit(function(e) {
+            e.preventDefault();
+            
+            var selectedStores = $('.store-checkbox:checked').length;
+            if (selectedStores === 0) {
+                alert({
+                    title: '<?= $block->escapeJs(__('No Stores Selected')) ?>',
+                    content: '<?= $block->escapeJs(__('Please select at least one store or leave all unchecked to generate for all stores.')) ?>'
+                });
+                return;
+            }
+            
+            startGeneration();
+        });
+        
+        // Cancel functionality
+        $('#cancel-generation-btn').click(function() {
+            cancelGeneration();
+        });
+        
+        function startGeneration() {
+            // Show progress section
+            $('#generation-progress').show();
+            $('#generation-results').hide();
+            
+            // Update UI
+            $('#generate-sitemap-btn').prop('disabled', true).text('<?= $block->escapeJs(__('Generating...')) ?>');
+            $('#cancel-generation-btn').show();
+            
+            // Reset progress
+            updateProgress(0, '<?= $block->escapeJs(__('Starting generation...')) ?>');
+            
+            // Submit form via AJAX
+            $.ajax({
+                url: $('#sitemap-generate-form').attr('action'),
+                type: 'POST',
+                data: $('#sitemap-generate-form').serialize(),
+                dataType: 'json',
+                timeout: 300000, // 5 minutes timeout
+                success: function(response) {
+                    handleGenerationResponse(response);
+                },
+                error: function(xhr, status, error) {
+                    handleGenerationError(xhr, status, error);
+                },
+                complete: function() {
+                    // Reset UI
+                    $('#generate-sitemap-btn').prop('disabled', false).text('<?= $block->escapeJs(__('Generate Sitemap')) ?>');
+                    $('#cancel-generation-btn').hide();
+                    $('#generation-progress').hide();
+                }
+            });
+        }
+        
+        function updateProgress(percentage, message, storeName) {
+            $('#progress-fill').css('width', percentage + '%');
+            $('#progress-percentage').text(Math.round(percentage) + '%');
+            $('#progress-message').text(message);
+            
+            if (storeName) {
+                $('#current-store-name').text('<?= $block->escapeJs(__('Processing: ')) ?>' + storeName);
+                $('#current-store-info').show();
+            } else {
+                $('#current-store-info').hide();
+            }
+        }
+        
+        function handleGenerationResponse(response) {
+            updateProgress(100, '<?= $block->escapeJs(__('Generation completed')) ?>');
+            
+            setTimeout(function() {
+                showResults(response);
+            }, 1000);
+        }
+        
+        function showResults(response) {
+            var resultsHtml = '';
+            
+            // Summary
+            if (response.summary) {
+                var summaryClass = response.success ? 'indicator-success' : 'indicator-error';
+                resultsHtml += '<div class="indicator-item ' + summaryClass + '">';
+                resultsHtml += '<div class="indicator-content">';
+                resultsHtml += '<h4>' + response.message + '</h4>';
+                resultsHtml += '<ul>';
+                resultsHtml += '<li><?= $block->escapeJs(__('Stores processed: ')) ?>' + response.summary.stores_processed + '</li>';
+                resultsHtml += '<li><?= $block->escapeJs(__('Files generated: ')) ?>' + response.summary.files_generated + '</li>';
+                resultsHtml += '<li><?= $block->escapeJs(__('Success rate: ')) ?>' + response.summary.success_rate + '%</li>';
+                if (response.summary.errors_count > 0) {
+                    resultsHtml += '<li><?= $block->escapeJs(__('Errors: ')) ?>' + response.summary.errors_count + '</li>';
+                }
+                resultsHtml += '</ul>';
+                resultsHtml += '</div></div>';
+            }
+            
+            // Add robots.txt info if generation was successful
+            if (response.success && response.summary.files_generated > 0) {
+                resultsHtml += showRobotsTxtInfo();
+            }
+            
+            // Detailed results
+            if (response.results && response.results.length > 0) {
+                resultsHtml += '<div class="admin__data-grid-outer-wrap">';
+                resultsHtml += '<table class="admin__data-table">';
+                resultsHtml += '<thead>';
+                resultsHtml += '<tr>';
+                resultsHtml += '<th><?= $block->escapeJs(__('Store')) ?></th>';
+                resultsHtml += '<th><?= $block->escapeJs(__('Status')) ?></th>';
+                resultsHtml += '<th><?= $block->escapeJs(__('Files')) ?></th>';
+                resultsHtml += '<th><?= $block->escapeJs(__('Duration')) ?></th>';
+                resultsHtml += '<th><?= $block->escapeJs(__('Message')) ?></th>';
+                resultsHtml += '</tr>';
+                resultsHtml += '</thead>';
+                resultsHtml += '<tbody>';
+                
+                response.results.forEach(function(result) {
+                    var statusClass = result.success ? 'status-success' : 'status-error';
+                    var statusText = result.success ? '<?= $block->escapeJs(__('Success')) ?>' : '<?= $block->escapeJs(__('Error')) ?>';
+                    
+                    resultsHtml += '<tr>';
+                    resultsHtml += '<td>' + result.store_name + ' (' + result.store_id + ')</td>';
+                    resultsHtml += '<td><span class="' + statusClass + '">' + statusText + '</span></td>';
+                    
+                    if (result.success) {
+                        resultsHtml += '<td>' + result.files_count + ' files';
+                        if (result.files && result.files.length > 0) {
+                            resultsHtml += '<br><small>' + result.files.join(', ') + '</small>';
+                        }
+                        resultsHtml += '</td>';
+                        resultsHtml += '<td>' + result.duration + 's</td>';
+                    } else {
+                        resultsHtml += '<td>-</td>';
+                        resultsHtml += '<td>-</td>';
+                    }
+                    
+                    resultsHtml += '<td>' + result.message + '</td>';
+                    resultsHtml += '</tr>';
+                });
+                
+                resultsHtml += '</tbody>';
+                resultsHtml += '</table>';
+                resultsHtml += '</div>';
+            }
+            
+            $('#results-summary').html(resultsHtml);
+            $('#generation-results').show();
+        }
+        
+        function handleGenerationError(xhr, status, error) {
+            var errorMessage = '<?= $block->escapeJs(__('Generation failed: ')) ?>';
+            
+            if (xhr.responseJSON && xhr.responseJSON.message) {
+                errorMessage += xhr.responseJSON.message;
+            } else if (status === 'timeout') {
+                errorMessage += '<?= $block->escapeJs(__('Request timeout. Generation might still be running in background.')) ?>';
+            } else {
+                errorMessage += error || '<?= $block->escapeJs(__('Unknown error occurred')) ?>';
+            }
+            
+            alert({
+                title: '<?= $block->escapeJs(__('Generation Error')) ?>',
+                content: errorMessage
+            });
+        }
+        
+        function cancelGeneration() {
+            // Note: Actual cancellation would require WebSocket or polling mechanism
+            // For now, just hide the progress and reset UI
+            $('#generation-progress').hide();
+            $('#generate-sitemap-btn').prop('disabled', false).text('<?= $block->escapeJs(__('Generate Sitemap')) ?>');
+            $('#cancel-generation-btn').hide();
+        }
+        
+        function showRobotsTxtInfo() {
+            var robotsInfo = '';
+            robotsInfo += '<div class="indicator-item indicator-info robots-txt-info" style="margin-top: 20px;">';
+            robotsInfo += '<div class="indicator-content">';
+            robotsInfo += '<h4><i class="icon-info"></i> <?= $block->escapeJs(__('Important: Update robots.txt file')) ?></h4>';
+            robotsInfo += '<p><?= $block->escapeJs(__('To help search engines find your sitemaps, add the following lines to your robots.txt file:')) ?></p>';
+            robotsInfo += '<div class="robots-txt-example">';
+            robotsInfo += '<code style="display: block; background: #f5f5f5; padding: 10px; border-radius: 4px; font-family: monospace; white-space: pre;">';
+            <?php $robotsInfo = $block->getRobotsTxtInfo(); ?>
+            robotsInfo += '<?= $block->escapeJs($robotsInfo['robots_content_example']) ?>';
+            robotsInfo += '</code>';
+            robotsInfo += '</div>';
+            robotsInfo += '<div class="robots-txt-actions" style="margin-top: 10px;">';
+            robotsInfo += '<button type="button" class="action-secondary action-small" onclick="copyRobotsTxtExample()">';
+            robotsInfo += '<span><?= $block->escapeJs(__('Copy to Clipboard')) ?></span>';
+            robotsInfo += '</button>';
+            robotsInfo += '<small style="margin-left: 10px; color: #666;">';
+            robotsInfo += '<?= $block->escapeJs(__('File location: %1', $robotsInfo['robots_file_path'])) ?>';
+            robotsInfo += '</small>';
+            robotsInfo += '</div>';
+            robotsInfo += '</div></div>';
+            
+            return robotsInfo;
+        }
+        
+        function copyRobotsTxtExample() {
+            var textToCopy = '<?= $block->escapeJs($block->getRobotsTxtInfo()['robots_content_example']) ?>';
+            
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    showCopySuccessMessage();
+                });
+            } else {
+                // Fallback for older browsers
+                var textArea = document.createElement('textarea');
+                textArea.value = textToCopy;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showCopySuccessMessage();
+            }
+        }
+        
+        function showCopySuccessMessage() {
+            alert({
+                title: '<?= $block->escapeJs(__('Copied!')) ?>',
+                content: '<?= $block->escapeJs(__('Robots.txt content copied to clipboard. You can now paste it into your robots.txt file.')) ?>'
+            });
+        }
+        // Initialize robots.txt info copy functionality  
+        window.copyRobotsTxtExample = copyRobotsTxtExample;
+        window.showCopySuccessMessage = showCopySuccessMessage;
+    });
+});
+</script>

@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Defox Team
+ * @copyright Copyright (c) 2025 Defox (https://defox.pl)
+ * @package Defox_SEOSuite
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="defox_seosuite_admin_layout"/>
+    <head>
+        <css src="Defox_SEOSuite::css/sitemap-admin.css"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Defox\SEOSuite\Block\Adminhtml\Sitemap\Generate" 
+                   name="sitemap.generate" 
+                   template="Defox_SEOSuite::sitemap/generate.phtml">
+                <arguments>
+                    <argument name="title" xsi:type="string">Generate Sitemap</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

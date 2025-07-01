@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @package     Defox_SEOSuite
+ * @copyright   Copyright (c) 2025 Defox (https://defox.pl/)
+ * @license     Proprietary License
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="Defox\SEOSuite\Block\Adminhtml\StructuredData\Preview" name="defox_seosuite_structured_data_preview" template="Defox_SEOSuite::structured_data/preview.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

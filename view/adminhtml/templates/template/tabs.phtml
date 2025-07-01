@@ -1,0 +1,25 @@
+<?php
+/**
+ * @package     Defox_SEOSuite
+ * @author      Marcin Lisiecki 
+ * @copyright   Copyright (c) 2025 deFox
+ * @license     MIT
+ */
+
+/** @var \Magento\Framework\View\Element\Template $block */
+$activeTab = $block->getData('active_tab');
+?>
+<div class="admin__page-nav">
+    <ul class="admin__page-nav-items">
+        <li class="admin__page-nav-item <?= $activeTab === 'template_info' ? '_active' : '' ?>">
+            <a href="#template_info" class="admin__page-nav-link">
+                <span><?= $block->escapeHtml(__('General Information')) ?></span>
+            </a>
+        </li>
+        <li class="admin__page-nav-item <?= $activeTab === 'template_variables' ? '_active' : '' ?>">
+            <a href="#template_variables" class="admin__page-nav-link">
+                <span><?= $block->escapeHtml(__('Available Variables')) ?></span>
+            </a>
+        </li>
+    </ul>
+</div>

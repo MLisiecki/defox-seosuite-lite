@@ -1,0 +1,559 @@
+<?php
+/**
+ * @package     Defox_SEOSuite
+ * @author      Marcin Lisiecki 
+ * @copyright   Copyright (c) 2025 deFox
+ * @license     MIT
+ */
+
+$ajaxUrls = $block->getAjaxUrls();
+$validationTypes = $block->getValidationTypes();
+$validationOptions = $block->getValidationOptions();
+$advancedSettings = $block->getAdvancedSettings();
+$uploadConfig = $block->getUploadConfig();
+$stores = $block->getAvailableStores();
+$validationRules = $block->getValidationRules();
+$tips = $block->getValidationTips();
+$scoreThresholds = $block->getScoreThresholds();
+
+// Configuration for JavaScript module
+$jsConfig = [
+    'ajaxUrls' => $ajaxUrls,
+    'uploadConfig' => $uploadConfig,
+    'scoreThresholds' => $scoreThresholds,
+    'progressConfig' => [
+        'pollingInterval' => 2000,
+        'maxAttempts' => 300
+    ]
+];
+?>
+
+<div class="admin__page-nav-title">
+    <p class="page-subtitle"><?= $block->escapeHtml(__('Comprehensive sitemap validation with detailed analysis and recommendations')) ?></p>
+</div>
+
+<!-- Navigation Tabs -->
+<div class="validation-tabs">
+    <div class="admin__data-grid-wrap">
+        <div class="admin__data-grid-header">
+            <div class="admin__data-grid-header-row">
+                <div class="validation-tab-container">
+                    <button type="button" class="validation-tab active" data-tab="file-upload">
+                        <i class="icon-upload"></i>
+                        <span><?= $block->escapeHtml(__('Upload File')) ?></span>
+                    </button>
+                    <button type="button" class="validation-tab" data-tab="url-validation">
+                        <i class="icon-link"></i>
+                        <span><?= $block->escapeHtml(__('Validate URL')) ?></span>
+                    </button>
+                    <button type="button" class="validation-tab" data-tab="current-sitemap">
+                        <i class="icon-sitemap"></i>
+                        <span><?= $block->escapeHtml(__('Current Sitemap')) ?></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Validation Options Panel -->
+<div class="validation-options-panel">
+    <div class="admin__data-grid-wrap">
+        <div class="admin__data-grid-header">
+            <div class="admin__data-grid-header-row">
+                <div class="admin__data-grid-header-column">
+                    <h2><?= $block->escapeHtml(__('Validation Options')) ?></h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin__data-grid-body">
+            <div class="validation-options-grid">
+                <!-- Basic Options -->
+                <div class="basic-options-container">
+                    <h3><?= $block->escapeHtml(__('Basic Validation')) ?></h3>
+                    <div class="basic-options-row">
+                        <?php foreach ($validationOptions['basic'] as $key => $option): ?>
+                            <div class="option-item">
+                                <label class="checkbox-label">
+                                    <input type="checkbox"
+                                           name="<?= $block->escapeHtmlAttr($key) ?>"
+                                           value="1"
+                                        <?= $option['default'] ? 'checked' : '' ?>
+                                        <?= $option['required'] ? 'disabled' : '' ?>
+                                           class="validation-option" />
+                                    <span class="checkbox-text">
+                                        <strong><?= $block->escapeHtml($option['label']) ?></strong>
+                                        <?php if ($option['required']): ?>
+                                            <span class="required-indicator">*</span>
+                                        <?php endif; ?>
+                                        <small class="note"><?= $block->escapeHtml($option['description']) ?></small>
+                                    </span>
+                                </label>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+
+                <!-- Advanced Toggle Button -->
+                <div class="advanced-toggle-container">
+                    <button type="button" class="action-secondary" id="toggle-advanced-options">
+                        <span><?= $block->escapeHtml(__('Show Advanced Options')) ?></span>
+                    </button>
+                </div>
+
+                <!-- Advanced Options (Initially Hidden) -->
+                <div class="options-section advanced-options" style="display: none;">
+                    <h3><?= $block->escapeHtml(__('Advanced Validation')) ?></h3>
+                    <?php foreach ($validationOptions['advanced'] as $key => $option): ?>
+                        <div class="option-item">
+                            <label class="checkbox-label">
+                                <input type="checkbox"
+                                       name="<?= $block->escapeHtmlAttr($key) ?>"
+                                       value="1"
+                                    <?= $option['default'] ? 'checked' : '' ?>
+                                       class="validation-option advanced-option" />
+                                <span class="checkbox-text">
+                                    <strong><?= $block->escapeHtml($option['label']) ?></strong>
+                                    <small class="note"><?= $block->escapeHtml($option['description']) ?></small>
+                                </span>
+                            </label>
+                        </div>
+                    <?php endforeach; ?>
+
+                    <!-- Advanced Settings -->
+                    <div class="advanced-settings">
+                        <h4><?= $block->escapeHtml(__('Advanced Settings')) ?></h4>
+                        <?php foreach ($advancedSettings as $key => $setting): ?>
+                            <div class="setting-item">
+                                <label for="<?= $block->escapeHtmlAttr($key) ?>"><?= $block->escapeHtml($setting['label']) ?></label>
+                                <input type="<?= $block->escapeHtmlAttr($setting['type']) ?>"
+                                       id="<?= $block->escapeHtmlAttr($key) ?>"
+                                       name="<?= $block->escapeHtmlAttr($key) ?>"
+                                       value="<?= $block->escapeHtmlAttr($setting['default']) ?>"
+                                       min="<?= $block->escapeHtmlAttr($setting['min'] ?? '') ?>"
+                                       max="<?= $block->escapeHtmlAttr($setting['max'] ?? '') ?>"
+                                    <?= isset($setting['readonly']) && $setting['readonly'] ? 'readonly' : '' ?>
+                                       class="admin__control-text setting-input" />
+                                <p class="setting-description"><?= $block->escapeHtml($setting['description']) ?></p>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Validation Forms -->
+<div class="validation-forms">
+    <!-- File Upload Form -->
+    <div class="validation-form active" id="file-upload-form">
+        <div class="admin__data-grid-wrap">
+            <div class="admin__data-grid-header">
+                <div class="admin__data-grid-header-row">
+                    <div class="admin__data-grid-header-column">
+                        <h2><?= $block->escapeHtml(__('Upload Sitemap File')) ?></h2>
+                        <p class="note"><?= $block->escapeHtml(__('Upload XML or GZ sitemap files up to %1MB', $uploadConfig['max_file_size'] / 1024 / 1024)) ?></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin__data-grid-body">
+                <form id="sitemap-upload-form" enctype="multipart/form-data">
+                    <input type="hidden" name="form_key" value="<?= $block->escapeHtmlAttr($block->getFormKey()) ?>" />
+                    <input type="hidden" name="validation_type" value="file_upload" />
+
+                    <div class="upload-area">
+                        <div class="upload-zone" id="upload-zone">
+                            <div class="upload-icon">
+                                <i class="icon-upload-cloud"></i>
+                            </div>
+                            <div class="upload-text">
+                                <h3><?= $block->escapeHtml(__('Drop your sitemap file here')) ?></h3>
+                                <p><?= $block->escapeHtml(__('or click to browse')) ?></p>
+                                <small><?= $block->escapeHtml(__('Supported formats: %1', implode(', ', $uploadConfig['allowed_extensions']))) ?></small>
+                            </div>
+                            <input type="file"
+                                   id="sitemap-file-visible"
+                                   name="sitemap_file_visible"
+                                   accept=".xml,.gz,.xml.gz"
+                                   style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer;" />
+                            <input type="file"
+                                   id="sitemap-file"
+                                   name="sitemap_file"
+                                   accept=".xml,.gz,.xml.gz"
+                                   style="position: absolute; left: -9999px; top: -9999px; opacity: 0;" />
+                        </div>
+
+                        <div class="upload-info" id="upload-info" style="display: none;">
+                            <div class="file-details">
+                                <div class="file-icon">
+                                    <i class="icon-file-xml"></i>
+                                </div>
+                                <div class="file-data">
+                                    <h4 id="file-name"></h4>
+                                    <p id="file-size"></p>
+                                    <div class="file-actions">
+                                        <button type="button" class="action-secondary action-small" id="remove-file">
+                                            <span><?= $block->escapeHtml(__('Remove File')) ?></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="action-primary" id="validate-upload-btn" disabled>
+                            <span><?= $block->escapeHtml(__('Validate Uploaded File')) ?></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- URL Validation Form -->
+    <div class="validation-form" id="url-validation-form">
+        <div class="admin__data-grid-wrap">
+            <div class="admin__data-grid-header">
+                <div class="admin__data-grid-header-row">
+                    <div class="admin__data-grid-header-column">
+                        <h2><?= $block->escapeHtml(__('Validate Sitemap from URL')) ?></h2>
+                        <p class="note"><?= $block->escapeHtml(__('Enter the complete URL to your sitemap file')) ?></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin__data-grid-body">
+                <form id="sitemap-url-form">
+                    <input type="hidden" name="form_key" value="<?= $block->escapeHtmlAttr($block->getFormKey()) ?>" />
+                    <input type="hidden" name="validation_type" value="url_validation" />
+
+                    <div class="url-input-section">
+                        <div class="admin__field admin__field-wide">
+                            <div class="admin__field-label">
+                                <span><?= $block->escapeHtml(__('Sitemap URL')) ?></span>
+                            </div>
+                            <div class="admin__field-control">
+                                <input type="url"
+                                       id="sitemap-url"
+                                       name="sitemap_url"
+                                       class="admin__control-text"
+                                       placeholder="https://example.com/sitemap.xml"
+                                       required />
+                                <button type="button" class="action-secondary" id="check-url-btn">
+                                    <span><?= $block->escapeHtml(__('Check URL')) ?></span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="url-check-result" id="url-check-result" style="display: none;">
+                            <div class="check-status">
+                                <span class="status-indicator" id="url-status"></span>
+                                <span class="status-text" id="url-status-text"></span>
+                            </div>
+                            <div class="check-details" id="url-check-details"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="action-primary" id="validate-url-btn">
+                            <span><?= $block->escapeHtml(__('Validate from URL')) ?></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Current Sitemap Validation Form -->
+    <div class="validation-form" id="current-sitemap-form">
+        <div class="admin__data-grid-wrap">
+            <div class="admin__data-grid-header">
+                <div class="admin__data-grid-header-row">
+                    <div class="admin__data-grid-header-column">
+                        <h2><?= $block->escapeHtml(__('Validate Current Sitemap')) ?></h2>
+                        <p class="note"><?= $block->escapeHtml(__('Select a store to validate its currently generated sitemap')) ?></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin__data-grid-body">
+                <form id="current-sitemap-form-element">
+                    <input type="hidden" name="form_key" value="<?= $block->escapeHtmlAttr($block->getFormKey()) ?>" />
+                    <input type="hidden" name="validation_type" value="current_sitemap" />
+
+                    <div class="store-selection-section">
+                        <div class="admin__field admin__field-wide">
+                            <div class="admin__field-label">
+                                <span><?= $block->escapeHtml(__('Select Store')) ?></span>
+                            </div>
+                            <div class="admin__field-control">
+                                <select id="store-select" name="store_id" class="admin__control-select" required>
+                                    <option value=""><?= $block->escapeHtml(__('-- Select Store --')) ?></option>
+                                    <?php foreach ($stores as $store): ?>
+                                        <option value="<?= $block->escapeHtmlAttr($store['value']) ?>"
+                                                data-base-url="<?= $block->escapeHtmlAttr($store['base_url']) ?>"
+                                                data-enabled="<?= $store['sitemap_enabled'] ? 'true' : 'false' ?>">
+                                            <?= $block->escapeHtml($store['label']) ?>
+                                            <?php if (!$store['sitemap_enabled']): ?>
+                                                <?= $block->escapeHtml(__('(Disabled)')) ?>
+                                            <?php endif; ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="current-sitemaps-list" id="current-sitemaps-list" style="display: none;">
+                            <h3><?= $block->escapeHtml(__('Current Sitemaps')) ?></h3>
+                            <div class="sitemaps-grid" id="sitemaps-grid">
+                                <!-- Populated via AJAX -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="action-primary" id="validate-current-btn" disabled>
+                            <span><?= $block->escapeHtml(__('Validate Current Sitemap')) ?></span>
+                        </button>
+                        <button type="button" class="action-secondary" id="refresh-sitemaps-btn">
+                            <span><?= $block->escapeHtml(__('Refresh Sitemap List')) ?></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Validation Tips -->
+<div class="validation-tips-section">
+    <div class="admin__data-grid-wrap">
+        <div class="admin__data-grid-header">
+            <div class="admin__data-grid-header-row">
+                <div class="admin__data-grid-header-column">
+                    <h2><?= $block->escapeHtml(__('Validation Tips')) ?></h2>
+                    <p class="note"><?= $block->escapeHtml(__('Best practices for sitemap validation')) ?></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin__data-grid-body">
+            <div class="tips-grid">
+                <?php foreach ($tips as $tip): ?>
+                    <div class="tip-card">
+                        <div class="tip-icon">
+                            <i class="<?= $block->escapeHtmlAttr($tip['icon']) ?>"></i>
+                        </div>
+                        <div class="tip-content">
+                            <h4><?= $block->escapeHtml($tip['title']) ?></h4>
+                            <p><?= $block->escapeHtml($tip['description']) ?></p>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Validation Rules -->
+<div class="validation-rules-section">
+    <div class="admin__data-grid-wrap">
+        <div class="admin__data-grid-header">
+            <div class="admin__data-grid-header-row">
+                <div class="admin__data-grid-header-column">
+                    <h2><?= $block->escapeHtml(__('Validation Rules')) ?></h2>
+                    <p class="note"><?= $block->escapeHtml(__('What will be checked during validation')) ?></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin__data-grid-body">
+            <div class="rules-grid">
+                <?php foreach ($validationRules as $ruleKey => $rule): ?>
+                    <div class="rule-card">
+                        <div class="rule-header">
+                            <h4><?= $block->escapeHtml($rule['title']) ?></h4>
+                            <p class="rule-description"><?= $block->escapeHtml($rule['description']) ?></p>
+                        </div>
+                        <div class="rule-checks">
+                            <ul>
+                                <?php foreach ($rule['checks'] as $check): ?>
+                                    <li><?= $block->escapeHtml($check) ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Validation Progress -->
+<div class="validation-progress" id="validation-progress" style="display: none;">
+    <div class="admin__data-grid-wrap">
+        <div class="admin__data-grid-header">
+            <div class="admin__data-grid-header-row">
+                <div class="admin__data-grid-header-column">
+                    <h2><?= $block->escapeHtml(__('Validation Progress')) ?></h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin__data-grid-body">
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="validation-progress-fill"></div>
+                </div>
+                <div class="progress-info">
+                    <span class="progress-text" id="validation-progress-text"><?= $block->escapeHtml(__('Initializing validation...')) ?></span>
+                    <span class="progress-percentage" id="validation-progress-percentage">0%</span>
+                </div>
+                <div class="current-operation" id="current-operation">
+                    <span id="current-operation-text"></span>
+                </div>
+            </div>
+
+            <div class="progress-actions">
+                <button type="button" class="action-secondary" id="cancel-validation-btn">
+                    <span><?= $block->escapeHtml(__('Cancel Validation')) ?></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Validation Results -->
+<div class="validation-results" id="validation-results" style="display: none;">
+    <div class="admin__data-grid-wrap">
+        <div class="admin__data-grid-header">
+            <div class="admin__data-grid-header-row">
+                <div class="admin__data-grid-header-column">
+                    <h2><?= $block->escapeHtml(__('Validation Results')) ?></h2>
+                </div>
+                <div class="admin__data-grid-header-column">
+                    <div class="results-actions">
+                        <button type="button" class="action-secondary" id="export-results-btn">
+                            <span><?= $block->escapeHtml(__('Export Results')) ?></span>
+                        </button>
+                        <button type="button" class="action-secondary" id="print-results-btn">
+                            <span><?= $block->escapeHtml(__('Print Report')) ?></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin__data-grid-body">
+            <!-- Results Summary -->
+            <div class="results-summary" id="results-summary">
+                <!-- Populated via JavaScript -->
+            </div>
+
+            <!-- Detailed Results -->
+            <div class="results-details" id="results-details">
+                <!-- Populated via JavaScript -->
+            </div>
+
+            <!-- Recommendations -->
+            <div class="results-recommendations" id="results-recommendations">
+                <!-- Populated via JavaScript -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Management Tools -->
+<div class="management-tools">
+    <div class="admin__data-grid-wrap">
+        <div class="admin__data-grid-header">
+            <div class="admin__data-grid-header-row">
+                <div class="admin__data-grid-header-column">
+                    <h2><?= $block->escapeHtml(__('Management Tools')) ?></h2>
+                    <p class="note"><?= $block->escapeHtml(__('Tools for sitemap generation, validation and analysis')) ?></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin__data-grid-body">
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="icon-sitemap"></i>
+                    </div>
+                    <div class="tool-content">
+                        <h3><?= $block->escapeHtml(__('Generate Sitemap')) ?></h3>
+                        <p><?= $block->escapeHtml(__('Create XML sitemaps for your stores')) ?></p>
+                    </div>
+                    <div class="tool-action">
+                        <a href="<?= $block->escapeUrl($block->getUrl('defox_seosuite/sitemap/generate')) ?>" 
+                           class="action-secondary">
+                            <span><?= $block->escapeHtml(__('Generate Sitemap')) ?></span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="tool-card tool-primary">
+                    <div class="tool-icon">
+                        <i class="icon-validate"></i>
+                    </div>
+                    <div class="tool-content">
+                        <h3><?= $block->escapeHtml(__('Validate Sitemap')) ?></h3>
+                        <p><?= $block->escapeHtml(__('Validate existing sitemaps for SEO compliance')) ?></p>
+                    </div>
+                    <div class="tool-action">
+                        <a href="<?= $block->escapeUrl($block->getUrl('defox_seosuite/sitemap/validate')) ?>" 
+                           class="action-primary">
+                            <span><?= $block->escapeHtml(__('Validate Sitemap')) ?></span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="icon-analytics"></i>
+                    </div>
+                    <div class="tool-content">
+                        <h3><?= $block->escapeHtml(__('Analytics & Reports')) ?></h3>
+                        <p><?= $block->escapeHtml(__('View generation statistics and performance')) ?></p>
+                    </div>
+                    <div class="tool-action">
+                        <a href="<?= $block->escapeUrl($block->getUrl('defox_seosuite/sitemap/dashboard')) ?>" 
+                           class="action-secondary">
+                            <span><?= $block->escapeHtml(__('Analytics & Reports')) ?></span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="icon-settings"></i>
+                    </div>
+                    <div class="tool-content">
+                        <h3><?= $block->escapeHtml(__('Settings')) ?></h3>
+                        <p><?= $block->escapeHtml(__('Configure sitemap generation options')) ?></p>
+                    </div>
+                    <div class="tool-action">
+                        <a href="<?= $block->escapeUrl($block->getUrl('adminhtml/system_config/edit/section/defox_seosuite')) ?>" 
+                           class="action-secondary">
+                            <span><?= $block->escapeHtml(__('Settings')) ?></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Initialize JavaScript Module -->
+<script type="text/x-magento-init">
+{
+    "*": {
+        "Defox_SEOSuite/js/sitemap-validator": <?= /* @noEscape */ json_encode($jsConfig) ?>
+    }
+}
+</script>

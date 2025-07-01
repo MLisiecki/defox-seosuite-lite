@@ -1,0 +1,410 @@
+/**
+ * @package     Defox_SEOSuite
+ * @author      Marcin Lisiecki
+ * @copyright   Copyright (c) 2025 deFox
+ * @license     MIT
+ */
+
+/* Variables display styles */
+.defox-variables-container {
+    margin-top: 15px;
+}
+
+.defox-variables-display {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #e3e3e3;
+    border-radius: 4px;
+    padding: 15px;
+    background: #fafafa;
+}
+
+.defox-variables-category {
+    margin-bottom: 25px;
+}
+
+.defox-variables-category:last-child {
+    margin-bottom: 0;
+}
+
+.defox-variables-category-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 12px 0;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #007bdb;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.defox-variables-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+}
+
+.defox-variable-item {
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.defox-variable-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: #007bdb;
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+}
+
+.defox-variable-item:hover {
+    background: #f0f8ff;
+    border-color: #007bdb;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 123, 219, 0.15);
+}
+
+.defox-variable-item:hover::before {
+    transform: scaleY(1);
+}
+
+.defox-variable-item:active {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 123, 219, 0.2);
+}
+
+.defox-variable-code {
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Courier New', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: #007bdb;
+    margin-bottom: 6px;
+    word-break: break-all;
+    background: #f8f9fa;
+    padding: 4px 6px;
+    border-radius: 3px;
+    display: inline-block;
+}
+
+.defox-variable-description {
+    font-size: 12px;
+    color: #666;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.defox-variables-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: #999;
+    font-style: italic;
+    background: #f9f9f9;
+    border: 1px dashed #ddd;
+    border-radius: 4px;
+}
+
+.defox-variables-empty .admin__field-note {
+    margin: 0;
+    font-size: 14px;
+}
+
+/* Template fieldset visibility animation */
+.template-fieldset {
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+.template-fieldset[style*="display: none"] {
+    opacity: 0;
+    max-height: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.template-fieldset:not([style*="display: none"]) {
+    opacity: 1;
+    max-height: none;
+}
+
+/* Template fieldset specific hiding/showing */
+.template-fieldset-meta-title,
+.template-fieldset-meta-description,
+.template-fieldset-meta-keywords,
+.template-fieldset-meta-robots,
+.template-fieldset-open-graph {
+    transition: opacity 0.3s ease, max-height 0.3s ease, margin 0.3s ease;
+}
+
+.template-fieldset-meta-title.fieldset-hidden,
+.template-fieldset-meta-description.fieldset-hidden,
+.template-fieldset-meta-keywords.fieldset-hidden,
+.template-fieldset-meta-robots.fieldset-hidden,
+.template-fieldset-open-graph.fieldset-hidden {
+    opacity: 0;
+    max-height: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+/* Notice styles for template type information */
+.defox-seo-template-notice {
+    background: #e3f2fd;
+    border-left: 4px solid #2196f3;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 3px;
+    font-size: 13px;
+    color: #333;
+}
+
+.defox-seo-help-notice {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 3px;
+    font-size: 13px;
+    color: #856404;
+}
+
+/* Template type info styling */
+.template-type-info {
+    background: #e8f4fd;
+    border: 1px solid #007bdb;
+    border-radius: 4px;
+    padding: 12px 15px;
+    margin: 10px 0;
+    font-size: 13px;
+    color: #333;
+    position: relative;
+}
+
+.template-type-info::before {
+    content: 'ℹ️';
+    margin-right: 8px;
+    font-size: 14px;
+}
+
+.template-type-info.info {
+    background: #e8f4fd;
+    border-color: #007bdb;
+}
+
+.template-type-info.warning {
+    background: #fff3cd;
+    border-color: #ffc107;
+}
+
+.template-type-info.success {
+    background: #d4edda;
+    border-color: #28a745;
+}
+
+/* Form enhancements */
+.defox-seosuite-template-form .admin__fieldset-wrapper-title {
+    position: relative;
+}
+
+.defox-seosuite-template-form .admin__fieldset-wrapper-title .admin__collapsible-title {
+    padding-left: 35px;
+}
+
+.defox-seosuite-template-form .admin__fieldset-wrapper-title .admin__collapsible-title::before {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    width: 25px;
+    text-align: center;
+}
+
+/* Fieldset icons */
+.defox-seosuite-template-form .admin__fieldset[data-index="meta_title_fieldset"] .admin__fieldset-wrapper-title .admin__collapsible-title::before {
+    content: '📋';
+}
+
+.defox-seosuite-template-form .admin__fieldset[data-index="meta_description_fieldset"] .admin__fieldset-wrapper-title .admin__collapsible-title::before {
+    content: '📝';
+}
+
+.defox-seosuite-template-form .admin__fieldset[data-index="meta_keywords_fieldset"] .admin__fieldset-wrapper-title .admin__collapsible-title::before {
+    content: '🏷️';
+}
+
+.defox-seosuite-template-form .admin__fieldset[data-index="meta_robots_fieldset"] .admin__fieldset-wrapper-title .admin__collapsible-title::before {
+    content: '🤖';
+}
+
+.defox-seosuite-template-form .admin__fieldset[data-index="open_graph_fieldset"] .admin__fieldset-wrapper-title .admin__collapsible-title::before {
+    content: '🌐';
+}
+
+.defox-seosuite-template-form .admin__fieldset[data-index="variables_fieldset"] .admin__fieldset-wrapper-title .admin__collapsible-title::before {
+    content: '🔧';
+}
+
+.defox-seosuite-template-form .admin__fieldset[data-index="conditions_fieldset"] .admin__fieldset-wrapper-title .admin__collapsible-title::before {
+    content: '⚙️';
+}
+
+/* Notification styles */
+.defox-notification {
+    position: fixed;
+    top: 80px;
+    right: 30px;
+    z-index: 9999;
+    padding: 12px 20px;
+    border-radius: 6px;
+    color: white;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    max-width: 300px;
+    animation: slideInRight 0.3s ease;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.defox-notification.success {
+    background: linear-gradient(135deg, #28a745, #20c997);
+}
+
+.defox-notification.error {
+    background: linear-gradient(135deg, #dc3545, #e83e8c);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .defox-variables-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .defox-variables-display {
+        padding: 10px;
+        max-height: 300px;
+    }
+    
+    .defox-notification {
+        right: 15px;
+        left: 15px;
+        max-width: none;
+    }
+    
+    .defox-seosuite-template-form .admin__fieldset-wrapper-title .admin__collapsible-title {
+        padding-left: 30px;
+    }
+    
+    .defox-seosuite-template-form .admin__fieldset-wrapper-title .admin__collapsible-title::before {
+        width: 20px;
+        font-size: 14px;
+    }
+}
+
+/* Scroll bar styling for webkit browsers */
+.defox-variables-display::-webkit-scrollbar {
+    width: 8px;
+}
+
+.defox-variables-display::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.defox-variables-display::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.defox-variables-display::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1;
+}
+
+/* Enhanced form validation styles */
+.defox-seosuite-template-form .admin__field-error {
+    border-color: #e02b27;
+}
+
+.defox-seosuite-template-form .admin__field-error .admin__control-text,
+.defox-seosuite-template-form .admin__field-error .admin__control-select,
+.defox-seosuite-template-form .admin__field-error .admin__control-textarea {
+    border-color: #e02b27;
+}
+
+/* Template type selection highlight */
+.defox-seosuite-template-form .admin__field[data-index="type"] .admin__control-select {
+    border: 2px solid #007bdb;
+    border-radius: 4px;
+}
+
+.defox-seosuite-template-form .admin__field[data-index="type"] .admin__field-label {
+    font-weight: 600;
+    color: #007bdb;
+}
+
+/* Active fieldset highlighting */
+.template-fieldset:not([style*="display: none"]) .admin__fieldset-wrapper-title {
+    background: linear-gradient(90deg, #f0f8ff 0%, #ffffff 100%);
+    border-left: 4px solid #007bdb;
+    padding-left: 15px;
+    margin-left: -19px;
+}
+
+/* Conditions examples styling */
+.defox-seosuite-template-form .admin__fieldset[data-index="conditions_fieldset"] .admin__field-note {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 15px;
+    margin-top: 10px;
+}
+
+.defox-seosuite-template-form .admin__fieldset[data-index="conditions_fieldset"] .admin__field-note h4 {
+    color: #495057;
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.defox-seosuite-template-form .admin__fieldset[data-index="conditions_fieldset"] .admin__field-note ul {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.defox-seosuite-template-form .admin__fieldset[data-index="conditions_fieldset"] .admin__field-note li {
+    margin-bottom: 5px;
+    line-height: 1.5;
+}
+
+.defox-seosuite-template-form .admin__fieldset[data-index="conditions_fieldset"] .admin__field-note div[style*="font-family: monospace"] {
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Courier New', monospace !important;
+    background: #ffffff !important;
+    border: 1px solid #ced4da !important;
+    border-radius: 4px !important;
+    padding: 10px !important;
+    margin: 5px 0 !important;
+    font-size: 12px;
+    color: #495057;
+    word-break: break-all;
+}

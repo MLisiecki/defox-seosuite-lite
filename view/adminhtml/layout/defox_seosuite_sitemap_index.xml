@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @package     Defox_SEOSuite
+ * @copyright   Copyright (c) 2024 Defox (https://defox.com)
+ * @license     Defox Proprietary License
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="defox_seosuite_admin_layout"/>
+    <head>
+        <title>Sitemap Management</title>
+        <css src="Defox_SEOSuite::css/sitemap-admin.css"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Defox\SEOSuite\Block\Adminhtml\Sitemap\Index" name="defox.seosuite.sitemap.index" template="Defox_SEOSuite::sitemap/index.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

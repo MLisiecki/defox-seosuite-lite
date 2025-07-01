@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Defox Team
+ * @copyright Copyright (c) 2025 Defox (https://defox.pl)
+ * @package Defox_SEOSuite
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Defox_SEOSuite::css/sitemap-admin.css"/>
+        <css src="Defox_SEOSuite::css/sitemap-dashboard.css"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Defox\SEOSuite\Block\Adminhtml\Sitemap\Dashboard"
+                   name="sitemap.dashboard"
+                   template="Defox_SEOSuite::sitemap/dashboard.phtml">
+                <arguments>
+                    <argument name="title" xsi:type="string">Sitemap Analytics &amp; Reports</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

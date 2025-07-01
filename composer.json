@@ -1,0 +1,30 @@
+{
+    "name": "defox/module-seosuite",
+    "description": "A comprehensive SEO Lite solution for Magento 2.4.7",
+    "type": "magento2-module",
+    "version": "1.0.0",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Marcin Lisiecki",
+            "email": "marcin@lisi.pl"
+        }
+    ],
+    "require": {
+        "php": "~8.2.0",
+        "magento/framework": "103.0.*",
+        "magento/module-store": "101.1.*",
+        "magento/module-catalog": "104.0.*",
+        "magento/module-cms": "104.0.*",
+        "magento/module-url-rewrite": "102.0.*",
+        "magento/module-sitemap": "100.4.*"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Defox\\SEOSuite\\": ""
+        }
+    }
+}

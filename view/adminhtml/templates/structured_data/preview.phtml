@@ -1,0 +1,215 @@
+<?php
+/**
+ * @package     Defox_SEOSuite
+ * @author      Marcin Lisiecki 
+ * @copyright   Copyright (c) 2025 deFox
+ * @license     MIT
+ */
+?>
+<div class="structured-data-preview">
+    <div class="admin__page-section">
+        <div class="admin__page-section-title">
+            <span class="title"><?= $block->escapeHtml(__('Structured Data Preview & Validator')) ?></span>
+        </div>
+        <div class="admin__page-section-content">
+            <div class="admin__fieldset">
+                <div class="admin__field">
+                    <label class="admin__field-label">
+                        <span><?= $block->escapeHtml(__('Entity Type')) ?></span>
+                    </label>
+                    <div class="admin__field-control">
+                        <select id="entity_type" class="admin__control-select">
+                            <option value=""><?= $block->escapeHtml(__('-- Select Entity Type --')) ?></option>
+                            <option value="product"><?= $block->escapeHtml(__('Product')) ?></option>
+                            <option value="category"><?= $block->escapeHtml(__('Category')) ?></option>
+                            <option value="page"><?= $block->escapeHtml(__('CMS Page')) ?></option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="admin__field">
+                    <label class="admin__field-label">
+                        <span><?= $block->escapeHtml(__('Entity ID')) ?></span>
+                    </label>
+                    <div class="admin__field-control">
+                        <input type="text" id="entity_id" class="admin__control-text" placeholder="<?= $block->escapeHtml(__('Enter entity ID')) ?>">
+                    </div>
+                </div>
+                
+                <div class="admin__field">
+                    <div class="admin__field-control">
+                        <button type="button" id="preview_button" class="action-primary">
+                            <span><?= $block->escapeHtml(__('Generate Preview')) ?></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="preview_results" style="display: none;">
+                <div class="messages" id="validation_messages">
+                    <div class="message message-success success" id="success_message" style="display: none;">
+                        <div><?= $block->escapeHtml(__('Structured data is valid!')) ?></div>
+                    </div>
+                    <div class="message message-error error" id="error_message" style="display: none;">
+                        <div id="error_content"></div>
+                    </div>
+                    <div class="message message-warning warning" id="warning_message" style="display: none;">
+                        <div id="warning_content"></div>
+                    </div>
+                </div>
+                
+                <div class="admin__fieldset">
+                    <div class="admin__field">
+                        <label class="admin__field-label">
+                            <span><?= $block->escapeHtml(__('JSON-LD Output')) ?></span>
+                        </label>
+                        <div class="admin__field-control">
+                            <textarea id="jsonld_output" class="admin__control-textarea" rows="15" readonly></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="admin__field">
+                        <label class="admin__field-label">
+                            <span><?= $block->escapeHtml(__('Structured Data (Raw)')) ?></span>
+                        </label>
+                        <div class="admin__field-control">
+                            <pre id="raw_data" class="admin__control-text" style="background: #f5f5f5; padding: 10px; overflow: auto; max-height: 400px;"></pre>
+                        </div>
+                    </div>
+                    
+                    <div class="admin__field">
+                        <label class="admin__field-label">
+                            <span><?= $block->escapeHtml(__('External Validation Tools')) ?></span>
+                        </label>
+                        <div class="admin__field-control">
+                            <button type="button" id="google_test" class="action-secondary">
+                                <span><?= $block->escapeHtml(__('Test in Google Rich Results')) ?></span>
+                            </button>
+                            <button type="button" id="schema_validator" class="action-secondary">
+                                <span><?= $block->escapeHtml(__('Test in Schema.org Validator')) ?></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+require(['jquery', 'Magento_Ui/js/modal/alert'], function($, alert) {
+    $(document).ready(function() {
+        $('#preview_button').on('click', function() {
+            var entityType = $('#entity_type').val();
+            var entityId = $('#entity_id').val();
+            
+            if (!entityType || !entityId) {
+                alert({
+                    title: '<?= $block->escapeJs(__('Error')) ?>',
+                    content: '<?= $block->escapeJs(__('Please select entity type and enter entity ID')) ?>'
+                });
+                return;
+            }
+            
+            $(this).prop('disabled', true).find('span').text('<?= $block->escapeJs(__('Loading...')) ?>');
+            
+            $.ajax({
+                url: '<?= $block->escapeUrl($block->getPreviewUrl()) ?>',
+                type: 'POST',
+                data: {
+                    entity_type: entityType,
+                    entity_id: entityId,
+                    form_key: FORM_KEY
+                },
+                success: function(response) {
+                    
+                    if (response.success) {
+                        $('#preview_results').show();
+                        $('#jsonld_output').val(response.jsonLd);
+                        $('#raw_data').text(JSON.stringify(response.rawData, null, 2));
+                        
+                        // Show debug info if available
+                        if (response.debugInfo) {
+
+                        }
+                        
+                        // Handle validation messages
+                        $('#success_message, #error_message, #warning_message').hide();
+                        
+                        if (response.isValid) {
+                            $('#success_message').show();
+                        }
+                        
+                        if (response.errors && response.errors.length > 0) {
+                            $('#error_message').show();
+                            $('#error_content').html('<strong><?= $block->escapeHtml(__('Errors:')) ?></strong><ul>' + 
+                                response.errors.map(function(error) {
+                                    return '<li>' + error + '</li>';
+                                }).join('') + '</ul>');
+                        }
+                        
+                        if (response.warnings && response.warnings.length > 0) {
+                            $('#warning_message').show();
+                            $('#warning_content').html('<strong><?= $block->escapeHtml(__('Warnings:')) ?></strong><ul>' + 
+                                response.warnings.map(function(warning) {
+                                    return '<li>' + warning + '</li>';
+                                }).join('') + '</ul>');
+                        }
+                    } else {
+                        alert({
+                            title: '<?= $block->escapeJs(__('Error')) ?>',
+                            content: response.message
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert({
+                        title: '<?= $block->escapeJs(__('Error')) ?>',
+                        content: '<?= $block->escapeJs(__('An error occurred while generating preview')) ?>' + 
+                                (xhr.responseText ? '\n\nDetails: ' + xhr.responseText : '')
+                    });
+                },
+                complete: function() {
+                    $('#preview_button').prop('disabled', false).find('span').text('<?= $block->escapeJs(__('Generate Preview')) ?>');
+                }
+            });
+        });
+        
+        $('#google_test').on('click', function() {
+            var jsonLd = $('#jsonld_output').val();
+            if (jsonLd) {
+                // Copy to clipboard
+                var temp = $('<textarea>');
+                $('body').append(temp);
+                temp.val(jsonLd).select();
+                document.execCommand('copy');
+                temp.remove();
+                
+                alert({
+                    title: '<?= $block->escapeJs(__('Copied!')) ?>',
+                    content: '<?= $block->escapeJs(__('JSON-LD copied to clipboard. Opening Google Rich Results Test...')) ?>'
+                });
+            }
+            window.open('<?= $block->escapeUrl($block->getGoogleTestUrl()) ?>', '_blank');
+        });
+        
+        $('#schema_validator').on('click', function() {
+            window.open('<?= $block->escapeUrl($block->getSchemaValidatorUrl()) ?>', '_blank');
+        });
+    });
+});
+</script>
+
+<style>
+.structured-data-preview {
+    max-width: 1200px;
+}
+.structured-data-preview .admin__control-textarea,
+.structured-data-preview .admin__control-text {
+    width: 100%;
+    font-family: monospace;
+}
+.structured-data-preview .action-secondary {
+    margin-right: 10px;
+}
+</style>

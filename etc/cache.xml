@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Cache configuration
+ *
+ * @package     Defox_SEOSuite
+ * @copyright   Copyright (c) 2024 Defox (https://defox.com)
+ * @license     Defox Proprietary License
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Cache/etc/cache.xsd">
+    <type name="defox_seosuite_canonical" translate="label,description" instance="Defox\SEOSuite\Model\Cache\Type\Canonical">
+        <label>Defox SEO Suite Canonical Cache</label>
+        <description>Cache for canonical URLs</description>
+    </type>
+
+    <type name="defox_seosuite_structured_data" translate="label,description" instance="Defox\SEOSuite\Model\Cache\Type\StructuredData">
+        <label>Defox SEO Suite Structured Data Cache</label>
+        <description>Cache for structured data (JSON-LD)</description>
+    </type>
+    <type name="defox_seosuite_sitemap" translate="label,description" instance="Defox\SEOSuite\Model\Cache\Type\Sitemap">
+        <label>Defox SEO Suite Sitemap Cache</label>
+        <description>Cache for sitemap data</description>
+    </type>
+</config>

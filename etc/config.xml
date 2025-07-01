@@ -1,0 +1,258 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @package     Defox_SEOSuite
+ * @copyright   Copyright (c) 2024 Defox (https://defox.com)
+ * @license     Defox Proprietary License
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <defox_seosuite>
+            <!-- Ustawienia ogólne -->
+            <general>
+                <enabled>1</enabled>
+                <debug_mode>0</debug_mode>
+            </general>
+
+            <!-- Ustawienia cache -->
+            <cache>
+                <enabled>1</enabled>
+                <lifetime>86400</lifetime>
+                <backend>file</backend>
+            </cache>
+
+            <!-- Konfiguracja meta tagów -->
+            <meta_tags>
+                <enabled>1</enabled>
+                <override_existing>1</override_existing>
+                <override_only_empty>1</override_only_empty>
+                <override_title>1</override_title>
+                <override_description>1</override_description>
+                <override_keywords>1</override_keywords>
+            </meta_tags>
+
+            <!-- Konfiguracja Open Graph -->
+            <open_graph>
+                <enabled>1</enabled>
+                <default_image></default_image>
+                <default_type>website</default_type>
+                <product_type>product</product_type>
+                <include_price>1</include_price>
+                <include_availability>1</include_availability>
+            </open_graph>
+
+            <!-- Ustawienia adresów kanonicznych -->
+            <canonical>
+                <enabled>1</enabled>
+                <use_for_products>1</use_for_products>
+                <use_for_categories>1</use_for_categories>
+                <use_for_cms>1</use_for_cms>
+            </canonical>
+
+            <!-- Ustawienia danych strukturalnych -->
+            <structured_data>
+                <enabled>1</enabled>
+                <product_enabled>1</product_enabled>
+                <category_enabled>1</category_enabled>
+                <organization_enabled>1</organization_enabled>
+                <website_enabled>1</website_enabled>
+                <reviews_enabled>1</reviews_enabled>
+                <cache_enabled>1</cache_enabled>
+                <cache_lifetime>86400</cache_lifetime>
+                <category_product_list_enabled>1</category_product_list_enabled>
+                <category_product_limit>20</category_product_limit>
+            </structured_data>
+            
+            <!-- Dane organizacji dla structured data -->
+            <structured_data_organization>
+                <name></name>
+                <type>Organization</type>
+                <logo></logo>
+                <description></description>
+                <founding_date></founding_date>
+                <tax_id></tax_id>
+                <vat_id></vat_id>
+                <street_address></street_address>
+                <locality></locality>
+                <region></region>
+                <postal_code></postal_code>
+                <country></country>
+                <customer_service_phone></customer_service_phone>
+                <customer_service_email></customer_service_email>
+                <tech_support_phone></tech_support_phone>
+                <tech_support_email></tech_support_email>
+                <sales_phone></sales_phone>
+                <sales_email></sales_email>
+                <available_languages></available_languages>
+                <area_served></area_served>
+                <facebook></facebook>
+                <twitter></twitter>
+                <instagram></instagram>
+                <youtube></youtube>
+                <linkedin></linkedin>
+                <pinterest></pinterest>
+                <tiktok></tiktok>
+            </structured_data_organization>
+            
+            <!-- Dane strony dla structured data -->
+            <structured_data_website>
+                <alternate_name></alternate_name>
+                <sitelinks_searchbox_enabled>1</sitelinks_searchbox_enabled>
+                <sitelinks_searchbox_url></sitelinks_searchbox_url>
+            </structured_data_website>
+            
+            <!-- Mapowanie atrybutów produktów -->
+            <structured_data_product>
+                <brand_attribute></brand_attribute>
+                <model_attribute></model_attribute>
+                <gtin8_attribute></gtin8_attribute>
+                <gtin13_attribute></gtin13_attribute>
+                <gtin14_attribute></gtin14_attribute>
+                <mpn_attribute></mpn_attribute>
+                <condition_attribute></condition_attribute>
+                <property_mappings></property_mappings>
+                <attribute_mappings_product></attribute_mappings_product>
+            </structured_data_product>
+
+            <!-- Informacje o firmie - domyślnie puste -->
+            <business_information>
+                <company_name></company_name>
+                <logo></logo>
+                <street></street>
+                <city></city>
+                <region></region>
+                <postal_code></postal_code>
+                <country>US</country>
+                <phone></phone>
+                <email></email>
+            </business_information>
+
+            <!-- Profile społecznościowe - domyślnie puste -->
+            <social_profiles>
+                <facebook></facebook>
+                <twitter></twitter>
+                <instagram></instagram>
+                <linkedin></linkedin>
+                <youtube></youtube>
+                <pinterest></pinterest>
+            </social_profiles>
+
+            <!-- Weryfikacja witryny - domyślnie puste -->
+            <site_verification>
+                <google></google>
+                <bing></bing>
+                <yandex></yandex>
+                <pinterest></pinterest>
+            </site_verification>
+
+            <!-- Konfiguracja mapy witryny XML -->
+            <xml_sitemap>
+                <enabled>1</enabled>
+                <include_images>1</include_images>
+                <include_tags>1</include_tags>
+                <hreflang_in_sitemap>1</hreflang_in_sitemap>
+                <exclude_urls></exclude_urls>
+            </xml_sitemap>
+
+            <!-- Konfiguracja linków krzyżowych -->
+            <crosslinks>
+                <enabled>1</enabled>
+                <max_links_per_page>5</max_links_per_page>
+                <exclude_css_selectors>.product-info-main, .product-options-wrapper, .navigation, .breadcrumbs</exclude_css_selectors>
+                <target_blank>0</target_blank>
+            </crosslinks>
+
+            <!-- Konfiguracja optymalizatora obrazów -->
+            <image_optimizer>
+                <enabled>1</enabled>
+                <jpg_quality>80</jpg_quality>
+                <png_compression>7</png_compression>
+                <image_dimensions>1</image_dimensions>
+                <lazy_loading>1</lazy_loading>
+            </image_optimizer>
+
+            <!-- Konfiguracja tagów hreflang -->
+            <hreflang>
+                <enabled>1</enabled>
+                <use_store_codes>1</use_store_codes>
+                <x_default>1</x_default>
+            </hreflang>
+
+            <!-- Ustawienia adresów kanonicznych - rozszerzone -->
+            <canonical>
+                <enabled>1</enabled>
+                <product_enabled>1</product_enabled>
+                <product_url_type>product_url</product_url_type>
+                <category_enabled>1</category_enabled>
+                <category_pagination>1</category_pagination>
+                <category_pagination_type>first_page</category_pagination_type>
+                <category_filters>0</category_filters>
+                <exclude_patterns></exclude_patterns>
+                <exclude_invisible_products>0</exclude_invisible_products>
+                <exclude_anchor_categories>0</exclude_anchor_categories>
+                <excluded_product_types></excluded_product_types>
+                <excluded_cms_pages></excluded_cms_pages>
+                <cache_enabled>1</cache_enabled>
+                <cache_lifetime>86400</cache_lifetime>
+            </canonical>
+
+            <!-- Ustawienia przyjaznych URL -->
+            <friendly_urls>
+                <enabled>1</enabled>
+                <url_pattern>category-attribute-value</url_pattern>
+                <filter_separator>/</filter_separator>
+                <value_separator>-</value_separator>
+                <multivalue_separator>,</multivalue_separator>
+                <attribute_url_map></attribute_url_map>
+            </friendly_urls>
+            
+            <!-- Sitemap default configuration -->
+            <sitemap>
+                <enabled>1</enabled>
+                <path>media/maps/</path>
+                <enable_compression>1</enable_compression>
+                <generation_cron_expr>0 2 * * *</generation_cron_expr>
+                <ping_search_engines>1</ping_search_engines>
+                <enable_hreflang>1</enable_hreflang>
+                
+                <!-- Provider configurations -->
+                <product>
+                    <enabled>1</enabled>
+                    <changefreq>weekly</changefreq>
+                    <priority>0.8</priority>
+                    <include_images>1</include_images>
+                    <exclude_out_of_stock>0</exclude_out_of_stock>
+                    <excluded_types></excluded_types>
+                    <exclude_invisible>1</exclude_invisible>
+                </product>
+                
+                <category>
+                    <enabled>1</enabled>
+                    <changefreq>weekly</changefreq>
+                    <priority>0.7</priority>
+                    <exclude_anchor>0</exclude_anchor>
+                    <exclude_inactive>1</exclude_inactive>
+                    <max_depth>0</max_depth>
+                </category>
+                
+                <cms_page>
+                    <enabled>1</enabled>
+                    <changefreq>monthly</changefreq>
+                    <priority>0.6</priority>
+                    <excluded_pages>no-route,home,enable-cookies,privacy-policy-cookie-restriction-mode</excluded_pages>
+                    <exclude_system_pages>1</exclude_system_pages>
+                </cms_page>
+                
+                <additional_links>
+                    <enabled>1</enabled>
+                    <changefreq>monthly</changefreq>
+                    <priority>0.5</priority>
+                    <custom_links></custom_links>
+                </additional_links>
+            </sitemap>
+            
+
+        </defox_seosuite>
+    </default>
+</config>

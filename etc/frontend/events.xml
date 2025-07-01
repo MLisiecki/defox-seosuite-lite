@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Frontend events configuration
+ *
+ * @package     Defox_SEOSuite
+ * @copyright   Copyright (c) 2024 Defox (https://defox.com)
+ * @license     Defox Proprietary License
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <!-- Use layout_render_before for meta tags - BEFORE layout is rendered -->
+    <event name="layout_render_before">
+        <observer name="defox_seosuite_apply_meta_tag_templates" instance="Defox\SEOSuite\Observer\ApplyMetaTagTemplates" />
+    </event>
+    
+    <!-- Structured data is now handled via Block in default.xml layout -->
+</config>
