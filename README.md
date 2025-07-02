@@ -363,19 +363,6 @@ We welcome contributions! Please follow these guidelines:
 - Follow SOLID principles
 - Implement proper error handling
 
-### Testing
-
-```bash
-# Run PHPUnit tests
-vendor/bin/phpunit
-
-# Run code sniffer
-vendor/bin/phpcs --standard=Magento2 app/code/Defox/SEOSuite/
-
-# Run static analysis
-vendor/bin/phpstan analyse app/code/Defox/SEOSuite/
-```
-
 ## Troubleshooting
 
 ### Common Issues
