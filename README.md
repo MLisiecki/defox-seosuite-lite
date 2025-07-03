@@ -134,7 +134,7 @@ php bin/magento cache:flush
 
 ## Configuration
 
-Navigate to **Stores → Configuration → Defox → SEO Suite** in your Magento admin panel.
+Navigate to **Stores → Configuration → Defox → SEO Suite** in your Magento admin panel. Do not forget to create a folder for sitemap.xml on Your host.
 
 ### Basic Setup
 
