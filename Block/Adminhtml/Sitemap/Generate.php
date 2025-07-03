@@ -268,7 +268,10 @@ class Generate extends Template
         $content .= "Allow: /\n\n";
         $content .= "# Add these lines to inform search engines about your sitemaps:\n";
         $content .= "Sitemap: " . rtrim($baseUrl, '/') . '/' . ltrim($sitemapPath, '/') . "sitemap.xml\n";
+        $content .= "or\n";
         $content .= "Sitemap: " . rtrim($baseUrl, '/') . '/' . ltrim($sitemapPath, '/') . "sitemap_index.xml";
+        $content .= "\n";
+        $content .= "If you are using gz compression, use sitemap.xml.gz or sitemap_index.xml.gz instead.";
         
         return $content;
     }
