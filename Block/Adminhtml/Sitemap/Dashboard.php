@@ -3,7 +3,7 @@
  * @package     Defox_SEOSuite
  * @author      Marcin Lisiecki 
  * @copyright   Copyright (c) 2025 deFox
- * @license     MIT
+ * @license     GPL v3
  */
 declare(strict_types=1);
 
