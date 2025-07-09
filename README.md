@@ -1,6 +1,6 @@
 # Defox SEO Suite Lite
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: GPLv3](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Magento 2.4.7](https://img.shields.io/badge/Magento-2.4.7-orange.svg)](https://devdocs.magento.com/)
 [![PHP 8.2+](https://img.shields.io/badge/PHP-8.2%2B-blue.svg)](https://www.php.net/)
 
