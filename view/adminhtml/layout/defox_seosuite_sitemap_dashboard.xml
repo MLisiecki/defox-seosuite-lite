@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
 <!--
 /**
- * @author Defox Team
- * @copyright Copyright (c) 2025 Defox (https://defox.pl)
- * @package Defox_SEOSuite
+ * @package     Defox_SEOSuite
+ * @author      Marcin Lisiecki
+ * @copyright   Copyright (c) 2025 deFox
+ * @license     GNU General Public License v3.0
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 

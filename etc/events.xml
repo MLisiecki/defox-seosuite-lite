@@ -4,8 +4,9 @@
  * Events configuration
  *
  * @package     Defox_SEOSuite
- * @copyright   Copyright (c) 2024 Defox (https://defox.com)
- * @license     Defox Proprietary License
+ * @author      Marcin Lisiecki
+ * @copyright   Copyright (c) 2025 deFox
+ * @license     GNU General Public License v3.0
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">

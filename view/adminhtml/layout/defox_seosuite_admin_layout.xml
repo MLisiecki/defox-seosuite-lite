@@ -2,8 +2,9 @@
 <!--
 /**
  * @package     Defox_SEOSuite
- * @copyright   Copyright (c) 2025 Defox (https://defox.pl)
- * @license     Defox Proprietary License
+ * @author      Marcin Lisiecki
+ * @copyright   Copyright (c) 2025 deFox
+ * @license     GNU General Public License v3.0
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">

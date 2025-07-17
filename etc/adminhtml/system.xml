@@ -3,8 +3,9 @@
      * System configuration
      *
      * @package     Defox_SEOSuite
-     * @copyright   Copyright (c) 2024 Defox (https://defox.com)
-     * @license     Defox Proprietary License
+     * @author      Marcin Lisiecki
+     * @copyright   Copyright (c) 2025 deFox
+     * @license     GNU General Public License v3.0
      */
     -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -55,7 +56,8 @@
                        showInWebsite="1" showInStore="1">
                     <label>Override Only Empty Meta Tags</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>If set to Yes, templates will only be applied when meta tags are empty in the entity. If set to No, templates will override all meta tags.
+                    <comment>If set to Yes, templates will only be applied when meta tags are empty in the entity. If
+                        set to No, templates will override all meta tags.
                     </comment>
                     <depends>
                         <field id="enabled">1</field>
@@ -290,7 +292,9 @@
                 <field id="skip_prefixes" translate="label comment" type="textarea" sortOrder="70" showInDefault="1"
                        showInWebsite="1" showInStore="1">
                     <label>Skip URL Prefixes</label>
-                    <comment>URL prefixes that should NOT be processed as friendly URLs (one per line). These routes will be ignored by the friendly URL processor to prevent conflicts with other modules.</comment>
+                    <comment>URL prefixes that should NOT be processed as friendly URLs (one per line). These routes
+                        will be ignored by the friendly URL processor to prevent conflicts with other modules.
+                    </comment>
                     <depends>
                         <field id="enabled">1</field>
                     </depends>
@@ -652,13 +656,15 @@
                 <field id="path" translate="label comment" type="text" sortOrder="30" showInDefault="1"
                        showInWebsite="1" showInStore="1">
                     <label>Sitemap Path</label>
-                    <comment>Path relative to Magento root directory where sitemap files will be stored. Default: media/maps/</comment>
+                    <comment>Path relative to Magento root directory where sitemap files will be stored. Default:
+                        media/maps/
+                    </comment>
                     <depends>
                         <field id="enabled">1</field>
                     </depends>
                 </field>
-                <field id="enable_compression" translate="label comment" type="select" sortOrder="40"
-                       showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="enable_compression" translate="label comment" type="select" sortOrder="40" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
                     <label>Enable Gzip Compression</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>Compress sitemap files using gzip to reduce size.</comment>
@@ -674,8 +680,8 @@
                         <field id="enabled">1</field>
                     </depends>
                 </field>
-                <field id="ping_search_engines" translate="label comment" type="select" sortOrder="60"
-                       showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="ping_search_engines" translate="label comment" type="select" sortOrder="60" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
                     <label>Ping Search Engines</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>Automatically notify search engines after sitemap generation.</comment>
@@ -683,8 +689,8 @@
                         <field id="enabled">1</field>
                     </depends>
                 </field>
-                <field id="enable_hreflang" translate="label comment" type="select" sortOrder="65"
-                       showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="enable_hreflang" translate="label comment" type="select" sortOrder="65" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
                     <label>Enable Hreflang Tags</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>Include hreflang tags for multilingual sitemaps.</comment>
@@ -703,19 +709,22 @@
                 </field>
 
                 <!-- Product Settings Group -->
-                <group id="product" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+                <group id="product" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
                     <label>Product Settings</label>
                     <depends>
                         <field id="*/sitemap/enabled">1</field>
                     </depends>
-                    
-                    <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+
+                    <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
                         <label>Enable Products in Sitemap</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                         <comment>Include products in sitemap generation.</comment>
                     </field>
-                    
-                    <field id="changefreq" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+
+                    <field id="changefreq" translate="label comment" type="select" sortOrder="20" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
                         <label>Change Frequency</label>
                         <source_model>Defox\SEOSuite\Model\Config\Source\Changefreq</source_model>
                         <comment>How frequently product pages are likely to change.</comment>
@@ -723,8 +732,9 @@
                             <field id="enabled">1</field>
                         </depends>
                     </field>
-                    
-                    <field id="priority" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+
+                    <field id="priority" translate="label comment" type="text" sortOrder="30" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
                         <label>Priority</label>
                         <validate>validate-number validate-number-range number-range-0-1</validate>
                         <comment>Priority of product pages relative to other URLs (0.0 to 1.0).</comment>
@@ -732,8 +742,9 @@
                             <field id="enabled">1</field>
                         </depends>
                     </field>
-                    
-                    <field id="include_images" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+
+                    <field id="include_images" translate="label comment" type="select" sortOrder="40" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
                         <label>Include Product Images</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                         <comment>Include product images in sitemap entries.</comment>
@@ -741,8 +752,9 @@
                             <field id="enabled">1</field>
                         </depends>
                     </field>
-                    
-                    <field id="exclude_out_of_stock" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+
+                    <field id="exclude_out_of_stock" translate="label comment" type="select" sortOrder="50"
+                           showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Exclude Out of Stock Products</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                         <comment>Exclude out of stock products from sitemap.</comment>
@@ -750,8 +762,9 @@
                             <field id="enabled">1</field>
                         </depends>
                     </field>
-                    
-                    <field id="excluded_types" translate="label comment" type="multiselect" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+
+                    <field id="excluded_types" translate="label comment" type="multiselect" sortOrder="60"
+                           showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Excluded Product Types</label>
                         <source_model>Defox\SEOSuite\Model\Config\Source\ProductTypes</source_model>
                         <comment>Product types to exclude from sitemap.</comment>
@@ -759,8 +772,9 @@
                             <field id="enabled">1</field>
                         </depends>
                     </field>
-                    
-                    <field id="exclude_invisible" translate="label comment" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+
+                    <field id="exclude_invisible" translate="label comment" type="select" sortOrder="70"
+                           showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Exclude Invisible Products</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                         <comment>Exclude products with 'Not Visible Individually' visibility.</comment>
@@ -769,21 +783,24 @@
                         </depends>
                     </field>
                 </group>
-                
+
                 <!-- Category Settings Group -->
-                <group id="category" translate="label" type="text" sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="1">
+                <group id="category" translate="label" type="text" sortOrder="210" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
                     <label>Category Settings</label>
                     <depends>
                         <field id="*/sitemap/enabled">1</field>
                     </depends>
-                    
-                    <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+
+                    <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
                         <label>Enable Categories in Sitemap</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                         <comment>Include categories in sitemap generation.</comment>
                     </field>
-                    
-                    <field id="changefreq" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+
+                    <field id="changefreq" translate="label comment" type="select" sortOrder="20" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
                         <label>Change Frequency</label>
                         <source_model>Defox\SEOSuite\Model\Config\Source\Changefreq</source_model>
                         <comment>How frequently category pages are likely to change.</comment>
@@ -791,8 +808,9 @@
                             <field id="enabled">1</field>
                         </depends>
                     </field>
-                    
-                    <field id="priority" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+
+                    <field id="priority" translate="label comment" type="text" sortOrder="30" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
                         <label>Priority</label>
                         <validate>validate-number validate-number-range number-range-0-1</validate>
                         <comment>Priority of category pages relative to other URLs (0.0 to 1.0).</comment>
@@ -800,8 +818,9 @@
                             <field id="enabled">1</field>
                         </depends>
                     </field>
-                    
-                    <field id="exclude_anchor" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+
+                    <field id="exclude_anchor" translate="label comment" type="select" sortOrder="40" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
                         <label>Exclude Anchor Categories</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                         <comment>Exclude anchor categories from sitemap.</comment>
@@ -809,8 +828,9 @@
                             <field id="enabled">1</field>
                         </depends>
                     </field>
-                    
-                    <field id="exclude_inactive" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+
+                    <field id="exclude_inactive" translate="label comment" type="select" sortOrder="50"
+                           showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Exclude Inactive Categories</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                         <comment>Exclude inactive categories from sitemap.</comment>
@@ -818,8 +838,9 @@
                             <field id="enabled">1</field>
                         </depends>
                     </field>
-                    
-                    <field id="max_depth" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+
+                    <field id="max_depth" translate="label comment" type="text" sortOrder="60" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
                         <label>Maximum Category Depth</label>
                         <validate>validate-digits</validate>
                         <comment>Maximum category depth to include (0 = no limit).</comment>
@@ -828,21 +849,24 @@
                         </depends>
                     </field>
                 </group>
-                
+
                 <!-- CMS Page Settings Group -->
-                <group id="cms_page" translate="label" type="text" sortOrder="220" showInDefault="1" showInWebsite="1" showInStore="1">
+                <group id="cms_page" translate="label" type="text" sortOrder="220" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
                     <label>CMS Page Settings</label>
                     <depends>
                         <field id="*/sitemap/enabled">1</field>
                     </depends>
-                    
-                    <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+
+                    <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
                         <label>Enable CMS Pages in Sitemap</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                         <comment>Include CMS pages in sitemap generation.</comment>
                     </field>
-                    
-                    <field id="changefreq" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+
+                    <field id="changefreq" translate="label comment" type="select" sortOrder="20" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
                         <label>Change Frequency</label>
                         <source_model>Defox\SEOSuite\Model\Config\Source\Changefreq</source_model>
                         <comment>How frequently CMS pages are likely to change.</comment>
@@ -850,8 +874,9 @@
                             <field id="enabled">1</field>
                         </depends>
                     </field>
-                    
-                    <field id="priority" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+
+                    <field id="priority" translate="label comment" type="text" sortOrder="30" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
                         <label>Priority</label>
                         <validate>validate-number validate-number-range number-range-0-1</validate>
                         <comment>Priority of CMS pages relative to other URLs (0.0 to 1.0).</comment>
@@ -859,16 +884,18 @@
                             <field id="enabled">1</field>
                         </depends>
                     </field>
-                    
-                    <field id="excluded_pages" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+
+                    <field id="excluded_pages" translate="label comment" type="text" sortOrder="40" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
                         <label>Excluded Page Identifiers</label>
                         <comment>Comma-separated list of page identifiers to exclude from sitemap.</comment>
                         <depends>
                             <field id="enabled">1</field>
                         </depends>
                     </field>
-                    
-                    <field id="exclude_system_pages" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+
+                    <field id="exclude_system_pages" translate="label comment" type="select" sortOrder="50"
+                           showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Exclude System Pages</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                         <comment>Exclude system pages (404, cookies, etc.) from sitemap.</comment>
@@ -877,21 +904,24 @@
                         </depends>
                     </field>
                 </group>
-                
+
                 <!-- Additional Links Settings Group -->
-                <group id="additional_links" translate="label" type="text" sortOrder="230" showInDefault="1" showInWebsite="1" showInStore="1">
+                <group id="additional_links" translate="label" type="text" sortOrder="230" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
                     <label>Additional Links Settings</label>
                     <depends>
                         <field id="*/sitemap/enabled">1</field>
                     </depends>
-                    
-                    <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+
+                    <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
                         <label>Enable Additional Links in Sitemap</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                         <comment>Include additional custom links in sitemap generation.</comment>
                     </field>
-                    
-                    <field id="changefreq" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+
+                    <field id="changefreq" translate="label comment" type="select" sortOrder="20" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
                         <label>Change Frequency</label>
                         <source_model>Defox\SEOSuite\Model\Config\Source\Changefreq</source_model>
                         <comment>How frequently additional links are likely to change.</comment>
@@ -899,8 +929,9 @@
                             <field id="enabled">1</field>
                         </depends>
                     </field>
-                    
-                    <field id="priority" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+
+                    <field id="priority" translate="label comment" type="text" sortOrder="30" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
                         <label>Priority</label>
                         <validate>validate-number validate-number-range number-range-0-1</validate>
                         <comment>Priority of additional links relative to other URLs (0.0 to 1.0).</comment>
@@ -908,17 +939,19 @@
                             <field id="enabled">1</field>
                         </depends>
                     </field>
-                    
-                    <field id="custom_links" translate="label comment" type="textarea" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+
+                    <field id="custom_links" translate="label comment" type="textarea" sortOrder="40" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
                         <label>Custom Links</label>
-                        <comment>Custom URLs to include in sitemap (one per line). Format: URL|priority|changefreq</comment>
+                        <comment>Custom URLs to include in sitemap (one per line). Format: URL|priority|changefreq
+                        </comment>
                         <depends>
                             <field id="enabled">1</field>
                         </depends>
                     </field>
                 </group>
             </group>
-            
+
 
         </section>
     </system>
