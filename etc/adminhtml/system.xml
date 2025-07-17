@@ -287,6 +287,14 @@
                         <field id="enabled">1</field>
                     </depends>
                 </field>
+                <field id="skip_prefixes" translate="label comment" type="textarea" sortOrder="70" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Skip URL Prefixes</label>
+                    <comment>URL prefixes that should NOT be processed as friendly URLs (one per line). These routes will be ignored by the friendly URL processor to prevent conflicts with other modules.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
             </group>
             <!-- Structured Data Settings -->
             <group id="structured_data" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1"

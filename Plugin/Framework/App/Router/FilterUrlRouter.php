@@ -66,10 +66,15 @@ class FilterUrlRouter
             return [$request];
         }
 
+        // Get request path
+        $requestPath = $request->getPathInfo();
+        
+        // Skip processing for certain routes that should not be processed as friendly URLs
+        if ($this->shouldSkipProcessing($requestPath)) {
+            return [$request];
+        }
+
         try {
-            // Get request path
-            $requestPath = $request->getPathInfo();
-            
             // Process request path to extract filter parameters
             $filterParams = $this->filterUrl->processRequestPath($requestPath);
             
@@ -94,5 +99,30 @@ class FilterUrlRouter
         }
         
         return [$request];
+    }
+
+    /**
+     * Check if request path should be skipped from friendly URL processing
+     *
+     * @param string $requestPath
+     * @return bool
+     */
+    private function shouldSkipProcessing(string $requestPath): bool
+    {
+        // Normalize path - remove leading/trailing slashes and convert to lowercase
+        $normalizedPath = strtolower(trim($requestPath, '/'));
+        
+        // Get skip prefixes from configuration
+        $skipPrefixes = $this->config->getSkipPrefixes();
+        
+        // Check if path starts with any of the skip prefixes
+        foreach ($skipPrefixes as $prefix) {
+            $prefix = strtolower(trim($prefix));
+            if (str_starts_with($normalizedPath, $prefix . '/') || $normalizedPath === $prefix) {
+                return true;
+            }
+        }
+        
+        return false;
     }
 }

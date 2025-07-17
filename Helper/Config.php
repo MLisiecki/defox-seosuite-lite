@@ -79,6 +79,7 @@ class Config extends AbstractHelper
     public const XML_PATH_VALUE_SEPARATOR = 'defox_seosuite/friendly_urls/value_separator';
     public const XML_PATH_MULTIVALUE_SEPARATOR = 'defox_seosuite/friendly_urls/multivalue_separator';
     public const XML_PATH_ATTRIBUTE_URL_MAP = 'defox_seosuite/friendly_urls/attribute_url_map';
+    public const XML_PATH_SKIP_PREFIXES = 'defox_seosuite/friendly_urls/skip_prefixes';
 
     // Structured Data paths
     public const XML_PATH_STRUCTURED_DATA_ENABLED = 'defox_seosuite/structured_data/enabled';
@@ -1459,6 +1460,77 @@ class Config extends AbstractHelper
         );
         
         return $lifetime ?: self::DEFAULT_CACHE_LIFETIME;
+    }
+
+    /**
+     * Get skip prefixes for friendly URLs
+     *
+     * @param int|null $storeId
+     * @return array
+     */
+    public function getSkipPrefixes(?int $storeId = null): array
+    {
+        $skipPrefixes = $this->scopeConfig->getValue(
+            self::XML_PATH_SKIP_PREFIXES,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+        
+        if (empty($skipPrefixes)) {
+            return $this->getDefaultSkipPrefixes();
+        }
+        
+        // Parse textarea input (one per line)
+        $lines = array_filter(array_map('trim', explode(PHP_EOL, (string)$skipPrefixes)));
+        
+        // Merge with default prefixes to ensure core functionality
+        $defaultPrefixes = $this->getDefaultSkipPrefixes();
+        $configuredPrefixes = array_filter($lines, function($prefix) {
+            return !empty($prefix) && $this->validatePrefix($prefix);
+        });
+        
+        return array_unique(array_merge($defaultPrefixes, $configuredPrefixes));
+    }
+    
+    /**
+     * Get default skip prefixes that should always be ignored
+     *
+     * @return array
+     */
+    public function getDefaultSkipPrefixes(): array
+    {
+        return [
+            'blog',          // Magefan Blog module
+            'admin',         // Admin routes
+            'rest',          // REST API
+            'soap',          // SOAP API
+            'graphql',       // GraphQL API
+            'pub',           // Static files
+            'media',         // Media files
+            'static',        // Static resources
+            'customer',      // Customer routes that might have dashes
+            'checkout',      // Checkout routes
+            'sales',         // Sales routes
+            'paypal',        // PayPal routes
+            'newsletter',    // Newsletter routes
+            'catalogsearch', // Catalog search
+            'sendfriend',    // Send friend routes
+            'wishlist',      // Wishlist routes
+            'review',        // Review routes
+            'contact',       // Contact routes
+        ];
+    }
+    
+    /**
+     * Validate prefix format
+     *
+     * @param string $prefix
+     * @return bool
+     */
+    private function validatePrefix(string $prefix): bool
+    {
+        // Basic validation - alphanumeric with dashes/underscores
+        return (bool)preg_match('/^[a-zA-Z0-9_-]+$/', $prefix);
     }
 
     /**

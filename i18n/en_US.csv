@@ -827,3 +827,23 @@
 "Website Information","Website Information"
 "YouTube URL","YouTube URL"
 "Your organization/company name.","Your organization/company name."
+"Skip URL Prefixes","Skip URL Prefixes"
+"URL prefixes that should NOT be processed as friendly URLs (one per line). These routes will be ignored by the friendly URL processor to prevent conflicts with other modules.","URL prefixes that should NOT be processed as friendly URLs (one per line). These routes will be ignored by the friendly URL processor to prevent conflicts with other modules."
+"Magefan Blog module","Magefan Blog module",
+"Admin routes","Admin routes"
+"REST API","REST API"
+"SOAP API","SOAP API"
+"GraphQL API","GraphQL API"
+"Static files","Static files"
+"Media files","Media files",
+"Static resources","Static resources",
+"Customer routes that might have dashes","Customer routes that might have dashes"
+"Checkout routes","Checkout routes"
+"Sales routes","Sales routes"
+"PayPal routes","PayPal routes"
+"Newsletter routes","Newsletter routes"
+"Catalog search","Catalog search"
+"Send friend routes","Send friend routes"
+"Wishlist routes","Wishlist routes"
+"Review routes","Review routes"
+"Contact routes","Contact routes"

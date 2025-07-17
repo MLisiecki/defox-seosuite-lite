@@ -205,6 +205,24 @@
                 <value_separator>-</value_separator>
                 <multivalue_separator>,</multivalue_separator>
                 <attribute_url_map></attribute_url_map>
+                <skip_prefixes>blog
+admin
+rest
+soap
+graphql
+pub
+media
+static
+customer
+checkout
+sales
+paypal
+newsletter
+catalogsearch
+sendfriend
+wishlist
+review
+contact</skip_prefixes>
             </friendly_urls>
             
             <!-- Sitemap default configuration -->
